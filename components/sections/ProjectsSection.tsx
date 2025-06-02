@@ -118,8 +118,8 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                           className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                         >
                           {/* Project Image */}
-                          <div className="relative h-56 overflow-hidden">
-                            <Image
+                          {/* <div className="relative h-56 overflow-hidden">
+                          <Image
                               src={
                                 project.image ||
                                 `/placeholder.svg?height=224&width=400&text=${
@@ -130,10 +130,10 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                               alt={project.name}
                               fill
                               className="object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
+                            /> *
                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                            {/* Overlay Buttons */}
+                            \
                             <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                               <motion.a
                                 href={project.link}
@@ -159,7 +159,7 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                                 </motion.a>
                               )}
                             </div>
-                          </div>
+                          </div> */}
 
                           {/* Project Content */}
                           <div className="p-6">
