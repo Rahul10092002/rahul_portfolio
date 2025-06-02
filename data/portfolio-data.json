@@ -1,0 +1,173 @@
+{
+  "name": "Rahul Patidar",
+  "title": "Full Stack Developer",
+  "about": {
+    "description": "Full Stack Developer skilled in building scalable, user-centric web applications using modern technologies. With hands-on experience in frontend and backend development, I specialize in creating seamless UI/UX, robust APIs, and deploying production-ready applications. Passionate about learning and contributing to impactful software solutions.",
+    "image": "/images/profile.jpg"
+  },
+  "skills": {
+    "frontend": [
+      "React.js",
+      "Next.js",
+      "Tailwind CSS",
+      "Redux",
+      "RTK Query",
+      "React Native",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Material UI",
+      "Framer Motion"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "SQL",
+      "Firebase",
+      "Strapi",
+      "RESTful APIs",
+      "JWT",
+      "Socket.IO"
+    ],
+    "languages": [
+      "Java",
+      "TypeScript",
+      "JavaScript",
+      "Python",
+      "SQL",
+      "HTML/CSS",
+      "C++"
+    ],
+    "tools": [
+      "Git",
+      "Docker",
+      "AWS (EC2)",
+      "CI/CD Pipelines",
+      "Vercel",
+      "VS Code",
+      "IntelliJ IDEA",
+      "NPM",
+      "Postman",
+      "Figma"
+    ],
+    "concepts": [
+      "API Design",
+      "Cloud Computing",
+      "OOPs",
+      "Data Structures",
+      "System Design",
+      "Agile Development"
+    ]
+  },
+  "education": [
+    {
+      "degree": "Master of Computer Applications",
+      "institution": "Devi Ahilya Vishwavidyalaya",
+      "year": "Aug 2024 – July 2026 (Expected)",
+      "location": "Indore"
+    },
+    {
+      "degree": "Bachelor of Computer Applications",
+      "institution": "Government Holkar Science College",
+      "year": "Aug 2021 – July 2024",
+      "location": "Indore"
+    },
+    {
+      "degree": "Senior Secondary (12th)",
+      "institution": "Shree Ram Higher Secondary School",
+      "year": "2020 – 2021",
+      "location": "Indore"
+    }
+  ],
+  "experience": [
+    {
+      "position": "Full Stack Developer",
+      "company": "TecoNico Private Limited",
+      "duration": "June 2024 – Present",
+      "location": "Remote",
+      "description": "Revamped login flow, authentication, and UI for Robosensy; improved API performance by 30%. Developed role-based routing, invoice/medicine management, and a feature-rich admin dashboard. Managed deployments using AWS EC2 and Docker, and implemented CI/CD pipelines. Built scalable features using React.js, Node.js, Express.js, MongoDB, and Tailwind CSS."
+    },
+    {
+      "position": "React Developer Intern",
+      "company": "Young Decade IT Software Solution",
+      "duration": "May 2023 – July 2023",
+      "location": "Indore",
+      "description": "Improved UI/UX for key modules, reducing page load time by 25%. Increased user engagement by 20%. Collaborated with design and backend teams to accelerate delivery by 15%."
+    },
+    {
+      "position": "Freelance Developer",
+      "company": "Upwork",
+      "duration": "Jan 2023 – Apr 2023",
+      "location": "Remote",
+      "description": "Delivered custom frontend dashboards and backend APIs for clients using the MERN stack. Successfully completed 3+ projects with 5-star ratings and positive client feedback."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Inventory Management System",
+      "description": "A comprehensive inventory management application built using the Nextjs stack. Features include role-based access control, real-time inventory updates, and detailed analytics dashboard for administrators.",
+      "tags": ["Next.js", "Redux", "Node.js", "PostgreSQL", "Tailwind CSS"],
+      "image": "/images/project1.png",
+      "link": "https://github.com/Rahul10092002/Inventory_Management",
+      "liveLink": "https://inventory-demo.vercel.app"
+    },
+    {
+      "name": "Share-Prompt",
+      "description": "A modern AI prompt-sharing platform built with Next.js featuring secure authentication via NextAuth. Users can create, explore, save, and share AI prompts with a clean, intuitive interface and real-time updates.",
+      "tags": ["Next.js", "MongoDB", "NextAuth", "Tailwind CSS"],
+      "image": "/images/project4.png",
+      "link": "https://github.com/Rahul10092002/share-prompt",
+      "liveLink": "https://share-prompt-demo.vercel.app"
+    },
+    {
+      "name": "Travel-Buddy",
+      "description": "A comprehensive travel web application featuring real-time geolocation services, trip sharing capabilities, and secure JWT-based authentication with Google One Tap Login integration for seamless user experience.",
+      "tags": ["Node.js", "Express.js", "MongoDB", "React.js", "Mapbox"],
+      "image": "/images/project5.png",
+      "link": "https://github.com/Rahul10092002/travel-buddy",
+      "liveLink": "https://travel-buddy-demo.vercel.app"
+    },
+    {
+      "name": "Doc-Connect",
+      "description": "A modern doctor appointment booking system with comprehensive doctor listings, streamlined booking flow, patient management, and integrated Strapi CMS for efficient content management and administration.",
+      "tags": ["Next.js", "React.js", "Strapi", "Tailwind CSS"],
+      "image": "/images/project6.png",
+      "link": "https://github.com/Rahul10092002/doc-connect",
+      "liveLink": "https://doc-connect-demo.vercel.app"
+    },
+    {
+      "name": "Task Management App",
+      "description": "A collaborative task management tool with real-time updates, team collaboration features, project tracking, deadline management, and intuitive drag-and-drop interface for enhanced productivity.",
+      "tags": ["React", "Firebase", "Material UI", "Real-time DB"],
+      "image": "/images/project3.png",
+      "link": "https://github.com/Rahul10092002/taskapp",
+      "liveLink": "https://taskapp-demo.vercel.app"
+    },
+    {
+      "name": "Portfolio Website",
+      "description": "A responsive personal portfolio website built with Next.js and Tailwind CSS. Showcases skills, projects, and resume with interactive animations and dark mode support.",
+      "tags": ["Next.js", "Tailwind CSS", "Framer Motion"],
+      "image": "/images/project2.png",
+      "link": "https://github.com/Rahul10092002/portfolio",
+      "liveLink": "https://rahulpatidar.vercel.app"
+    }
+  ],
+  "contact": {
+    "email": "rahulpatidar2132@gmail.com",
+    "phone": "+91-8085035032",
+    "linkedin": "https://www.linkedin.com/in/rahul-patidar-838144234",
+    "github": "https://github.com/Rahul10092002",
+    "twitter": "https://twitter.com"
+  },
+  "achievements": [
+    {
+      "title": "MERN Stack Full-Stack Development Certification",
+      "description": "Completed hands-on course focusing on MongoDB, Express.js, React.js, and Node.js for real-world web development."
+    },
+    {
+      "title": "Team Lead - E-Governance Internship",
+      "description": "Led a 4-member team to successfully deliver core MERN stack modules for digitizing public services."
+    }
+  ]
+}
