@@ -12,11 +12,13 @@ interface HomeProps {
     about: {
       image: string;
     };
+    resume: {
+      link: string;
+    };
   };
 }
 
 export default function HomeSection({ data }: HomeProps) {
-  
   return (
     <section
       id="home"
@@ -63,7 +65,7 @@ export default function HomeSection({ data }: HomeProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-row gap-4"
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <ScrollLink
@@ -77,14 +79,12 @@ export default function HomeSection({ data }: HomeProps) {
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <ScrollLink
-                to="projects"
-                smooth={true}
-                duration={500}
-                className="inline-flex items-center justify-center border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg font-medium text-lg cursor-pointer hover:bg-blue-600 hover:text-white transition-colors"
+              <button
+                onClick={() => window.open(data.resume.link, "_blank")}
+                className="inline-flex items-center justify-center border-2 bg-blue-600 text-white px-8 py-4 rounded-lg font-medium text-lg cursor-pointer hover:bg-blue-600 hover:text-white transition-colors"
               >
-                View Projects
-              </ScrollLink>
+                Resume
+              </button>
             </motion.div>
           </motion.div>
         </motion.div>

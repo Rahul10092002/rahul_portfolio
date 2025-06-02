@@ -5,6 +5,10 @@
     "description": "Full Stack Developer skilled in building scalable, user-centric web applications using modern technologies. With hands-on experience in frontend and backend development, I specialize in creating seamless UI/UX, robust APIs, and deploying production-ready applications. Passionate about learning and contributing to impactful software solutions.",
     "image": "/images/profile.jpg"
   },
+  "resume": {
+    "link": "https://drive.google.com/file/d/1QqzQU_fet3Mb7WyyWKM8WyTaXC4CGiFB/view?usp=sharing",
+    "downloadLink": "https://drive.google.com/uc?export=download&id=1QqzQU_fet3Mb7WyyWKM8WyTaXC4CGiFB"
+  },
   "skills": {
     "frontend": [
       "React.js",
@@ -75,9 +79,9 @@
     },
     {
       "degree": "Senior Secondary (12th)",
-      "institution": "Shree Ram Higher Secondary School",
-      "year": "2020 – 2021",
-      "location": "Indore"
+      "institution": "Swami Vivekanand Higher Secondary School",
+      "year": "2019 – 2020",
+      "location": "Dhar"
     }
   ],
   "experience": [
@@ -94,13 +98,6 @@
       "duration": "May 2023 – July 2023",
       "location": "Indore",
       "description": "Improved UI/UX for key modules, reducing page load time by 25%. Increased user engagement by 20%. Collaborated with design and backend teams to accelerate delivery by 15%."
-    },
-    {
-      "position": "Freelance Developer",
-      "company": "Upwork",
-      "duration": "Jan 2023 – Apr 2023",
-      "location": "Remote",
-      "description": "Delivered custom frontend dashboards and backend APIs for clients using the MERN stack. Successfully completed 3+ projects with 5-star ratings and positive client feedback."
     }
   ],
   "projects": [
