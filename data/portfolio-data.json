@@ -1,8 +1,8 @@
 {
   "name": "Rahul Patidar",
-  "title": "Full Stack Developer",
+  "title": "Full Stack Developer | Aspiring AI/GenAI Developer",
   "about": {
-    "description": "Full Stack Developer skilled in building scalable, user-centric web applications using modern technologies. With hands-on experience in frontend and backend development, I specialize in creating seamless UI/UX, robust APIs, and deploying production-ready applications. Passionate about learning and contributing to impactful software solutions.",
+    "description": "Full Stack Developer transitioning into AI/GenAI — building intelligent applications using LangChain, RAG pipelines, and LLM APIs alongside a MERN stack foundation. With 1+ year of professional experience, I've shipped production applications across healthcare, retail, and business management domains — from scalable EMR systems to a Warranty & Sales Management platform live across 4+ shops serving 1000+ customers per shop. Currently pursuing my MCA from DAVV, Indore while deepening my AI engineering skills through hands-on projects in LangChain, Prompt Engineering, NLP, and FastAPI.",
     "image": "/images/profile.jpg"
   },
   "resume": {
@@ -13,10 +13,10 @@
     "frontend": [
       "React.js",
       "Next.js",
-      "Tailwind CSS",
-      "Redux",
+      "Redux Toolkit",
       "RTK Query",
       "React Native",
+      "Tailwind CSS",
       "HTML",
       "CSS",
       "JavaScript",
@@ -34,11 +34,23 @@
       "JWT",
       "Socket.IO"
     ],
+    "ai_genai": [
+      "LangChain",
+      "RAG (Retrieval-Augmented Generation)",
+      "Prompt Engineering (Zero-Shot, Few-Shot, CoT, ReAct, ToT)",
+      "FastAPI",
+      "Groq API",
+      "Gemini API"
+    ],
+    "ai_ml_concepts": [
+      "NLP (Tokenization, Embeddings, Text Processing)",
+      "ML Fundamentals (Supervised Learning, Model Evaluation, Feature Engineering)"
+    ],
     "languages": [
-      "Java",
-      "TypeScript",
       "JavaScript",
+      "TypeScript",
       "Python",
+      "Java",
       "SQL",
       "HTML/CSS",
       "C++"
@@ -53,9 +65,12 @@
       "IntelliJ IDEA",
       "NPM",
       "Postman",
-      "Figma"
+      "Figma",
+      "Claude Code",
+      "GitHub Copilot"
     ],
     "concepts": [
+      "LLM Integration",
       "API Design",
       "Cloud Computing",
       "OOPs",
@@ -66,13 +81,13 @@
   },
   "education": [
     {
-      "degree": "Master of Computer Applications",
+      "degree": "Master of Computer Applications (CGPA: 8.0)",
       "institution": "Devi Ahilya Vishwavidyalaya",
       "year": "Aug 2024 – July 2026 (Expected)",
       "location": "Indore"
     },
     {
-      "degree": "Bachelor of Computer Applications",
+      "degree": "Bachelor of Computer Applications (CGPA: 7.8)",
       "institution": "Government Holkar Science College",
       "year": "Aug 2021 – July 2024",
       "location": "Indore"
@@ -86,11 +101,11 @@
   ],
   "experience": [
     {
-      "position": "Full Stack Developer",
-      "company": "TecoNico Private Limited",
-      "duration": "June 2024 – Present",
+      "position": "Software Developer Intern",
+      "company": "Teconico Private Limited",
+      "duration": "June 2024 – October 2025",
       "location": "Remote",
-      "description": "Revamped login flow, authentication, and UI for Robosensy; improved API performance by 30%. Developed role-based routing, invoice/medicine management, and a feature-rich admin dashboard. Managed deployments using AWS EC2 and Docker, and implemented CI/CD pipelines. Built scalable features using React.js, Node.js, Express.js, MongoDB, and Tailwind CSS."
+      "description": "Engineered a scalable EMR web application using the MERN stack, improving API response time by 30% through query optimization and efficient schema design. Automated a legacy MongoDB database migration using Python scripts, restructuring data across collections to align with updated schemas. Built and deployed a cross-platform Gym Management system (Web + React Native), enabling seamless staff operations and mobile accessibility."
     },
     {
       "position": "React Developer Intern",
@@ -101,6 +116,22 @@
     }
   ],
   "projects": [
+    {
+      "name": "WarrantyDesk",
+      "description": "A full-stack Sales & Warranty Management System, live across 4+ retail shops handling 1000+ customers per shop with real-time tracking. Features automated warranty expiry alerts, invoice generation, and role-based dashboards (Admin/Staff) backed by scalable REST APIs and Redux Toolkit state management. Currently being extended with AI-powered features (LLM integration experiments).",
+      "tags": ["MERN Stack", "Redux Toolkit", "REST APIs"],
+      "image": "/images/warrantydesk.png",
+      "link": "",
+      "liveLink": "https://warrantydesk.vercel.app"
+    },
+    {
+      "name": "Resume Parse Tool",
+      "description": "A production-ready resume parser UI integrating backend APIs for real-time structured data extraction from unstructured resume files. Built as a freelance project with clean, maintainable, scalable component architecture under tight deadlines.",
+      "tags": ["React.js", "Tailwind CSS", "ShadCN UI", "REST API"],
+      "image": "/images/resumeparse.png",
+      "link": "",
+      "liveLink": ""
+    },
     {
       "name": "Inventory Management System",
       "description": "A comprehensive inventory management application built using the Nextjs stack. Features include role-based access control, real-time inventory updates, and detailed analytics dashboard for administrators.",
@@ -160,11 +191,11 @@
   "achievements": [
     {
       "title": "MERN Stack Full-Stack Development Certification",
-      "description": "Completed hands-on course focusing on MongoDB, Express.js, React.js, and Node.js for real-world web development."
+      "description": "Completed an intensive hands-on program from Coding Shuttle focusing on real-world MERN applications."
     },
     {
       "title": "Team Lead - E-Governance Internship",
-      "description": "Led a 4-member team to successfully deliver core MERN stack modules for digitizing public services."
+      "description": "Led a 4-member team and delivered core MERN stack modules contributing to digitization of public service workflows."
     }
   ]
 }
