@@ -132,8 +132,8 @@ export default function Sidebar({ activeSection }: SidebarProps) {
               </div>
 
               {/* Navigation */}
-              <nav className="flex-1 px-4 py-6">
-                <div className="space-y-2">
+              <nav className="flex-1 px-4 py-4">
+                <div className="space-y-1">
                   {navItems.map((item, index) => {
                     const IconComponent = item.icon;
                     return (
@@ -149,7 +149,7 @@ export default function Sidebar({ activeSection }: SidebarProps) {
                           smooth={true}
                           offset={-70}
                           duration={500}
-                          className={`flex items-center gap-4 px-4 py-4 rounded-lg cursor-pointer transition-colors ${
+                          className={`flex items-center gap-4 px-4 py-3 rounded-lg cursor-pointer transition-colors ${
                             activeSection === item.id
                               ? "text-cyan-400 bg-slate-800"
                               : "text-gray-300 hover:text-white hover:bg-slate-800"
@@ -197,16 +197,16 @@ export default function Sidebar({ activeSection }: SidebarProps) {
       <aside className="hidden md:block fixed left-0 top-0 h-full w-64 bg-slate-900 shadow-xl z-40">
         <div className="flex flex-col h-full overflow-y-auto">
           {/* Profile Section */}
-          <div className="p-6 text-center">
+          <div className="p-4 text-center">
             {/* Profile Image */}
-            <div className="relative w-32 h-32 mx-auto mb-4">
+            <div className="relative w-24 h-24 mx-auto mb-3">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 p-1">
                 <div className="w-full h-full rounded-full overflow-hidden bg-slate-900">
                   <Image
                     src="/images/portfolio.png"
                     alt={portfolioData.name}
-                    width={128}
-                    height={128}
+                    width={96}
+                    height={96}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -214,12 +214,12 @@ export default function Sidebar({ activeSection }: SidebarProps) {
             </div>
 
             {/* Name */}
-            <h1 className="text-xl font-bold text-white mb-4">
+            <h1 className="text-xl font-bold text-white mb-2">
               {portfolioData.name}
             </h1>
 
             {/* Social Links */}
-            <div className="flex justify-center gap-3 mb-6">
+            <div className="flex justify-center gap-3 mb-4">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
@@ -238,7 +238,7 @@ export default function Sidebar({ activeSection }: SidebarProps) {
 
           {/* Navigation */}
           <nav className="flex-1 px-4">
-            <div className="space-y-2">
+            <div className="space-y-1">
               {navItems.map((item) => {
                 const IconComponent = item.icon;
                 return (
@@ -249,7 +249,7 @@ export default function Sidebar({ activeSection }: SidebarProps) {
                     smooth={true}
                     offset={-50}
                     duration={500}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group ${
+                    className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-all duration-200 group ${
                       activeSection === item.id
                         ? " text-cyan-400"
                         : "text-gray-400 hover:text-white hover:bg-slate-800"

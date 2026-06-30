@@ -6,16 +6,15 @@ import { useRef } from "react";
 import {
   Code,
   Database,
-  Smartphone,
   Cloud,
   Zap,
   Cpu,
   Globe,
-  Server,
-  Palette,
   GitBranch,
-  Shield,
-  Layers,
+  Bot,
+  Brain,
+  Network,
+  Workflow,
 } from "lucide-react";
 
 interface AboutProps {
@@ -27,72 +26,71 @@ interface AboutProps {
 
 const majorSkills = [
   {
-    icon: Code,
-    label: "React.js",
-    color: "bg-blue-500",
+    icon: Bot,
+    label: "LangGraph",
+    color: "bg-violet-600",
     position: { top: "10%", left: "15%" },
   },
   {
-    icon: Server,
-    label: "Node.js",
-    color: "bg-green-500",
+    icon: Brain,
+    label: "LangChain",
+    color: "bg-indigo-600",
     position: { top: "20%", right: "10%" },
   },
   {
-    icon: Database,
-    label: "MongoDB",
-    color: "bg-emerald-600",
+    icon: Network,
+    label: "RAG",
+    color: "bg-fuchsia-600",
     position: { top: "60%", left: "5%" },
+  },
+  {
+    icon: Zap,
+    label: "FastAPI",
+    color: "bg-emerald-500",
+    position: { top: "15%", left: "60%" },
+  },
+  {
+    icon: Database,
+    label: "ChromaDB",
+    color: "bg-blue-600",
+    position: { top: "70%", right: "15%" },
+  },
+  {
+    icon: Workflow,
+    label: "Agentic AI",
+    color: "bg-purple-700",
+    position: { top: "45%", left: "70%" },
+  },
+  {
+    icon: Cpu,
+    label: "Groq API",
+    color: "bg-pink-600",
+    position: { top: "80%", left: "40%" },
+  },
+  {
+    icon: Code,
+    label: "Python",
+    color: "bg-blue-500",
+    position: { top: "35%", right: "25%" },
   },
   {
     icon: Globe,
     label: "Next.js",
     color: "bg-gray-800",
-    position: { top: "15%", left: "60%" },
-  },
-  {
-    icon: Palette,
-    label: "Tailwind",
-    color: "bg-cyan-500",
-    position: { top: "70%", right: "15%" },
-  },
-  {
-    icon: GitBranch,
-    label: "Git",
-    color: "bg-orange-500",
-    position: { top: "45%", left: "70%" },
+    position: { top: "25%", left: "35%" },
   },
   {
     icon: Cloud,
     label: "AWS",
-    color: "bg-yellow-600",
-    position: { top: "80%", left: "40%" },
-  },
-  {
-    icon: Smartphone,
-    label: "React Native",
-    color: "bg-purple-500",
-    position: { top: "35%", right: "25%" },
-  },
-  {
-    icon: Shield,
-    label: "TypeScript",
-    color: "bg-blue-600",
-    position: { top: "25%", left: "35%" },
-  },
-  {
-    icon: Layers,
-    label: "Docker",
-    color: "bg-blue-400",
+    color: "bg-amber-600",
     position: { top: "55%", right: "40%" },
   },
   {
-    icon: Zap,
-    label: "Redux",
-    color: "bg-purple-600",
+    icon: GitBranch,
+    label: "Git",
+    color: "bg-orange-600",
     position: { top: "40%", left: "20%" },
   },
-  
 ];
 
 const FloatingSkill = ({ skill, index }: { skill: any; index: number }) => {
@@ -201,9 +199,9 @@ export default function AboutSection({ data }: AboutProps) {
         className="container mx-auto max-w-6xl"
       >
         <h2 className="text-4xl font-bold mb-2">About Me</h2>
-
-        {/* Blue underline */}
-        <div className="w-12 h-1 bg-blue-500 mb-6"></div>
+ 
+        {/* Violet underline */}
+        <div className="w-12 h-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 mb-6"></div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Content */}
@@ -229,21 +227,21 @@ export default function AboutSection({ data }: AboutProps) {
                 className="space-y-3"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-gray-700">
-                    Full-Stack Development Expertise
+                  <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
+                  <span className="text-gray-700 font-medium">
+                    Agentic AI Systems with LangGraph & LangChain
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-gray-700">
-                    Modern JavaScript Frameworks like React.js, Next.js.
+                  <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
+                  <span className="text-gray-700 font-medium">
+                    RAG Pipelines & LLM Integration
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-gray-700">
-                    Cloud & DevOps Integration
+                  <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
+                  <span className="text-gray-700 font-medium">
+                    Full-Stack Delivery with FastAPI, Next.js & MERN
                   </span>
                 </div>
               </motion.div>
@@ -269,7 +267,7 @@ export default function AboutSection({ data }: AboutProps) {
                     repeat: Number.POSITIVE_INFINITY,
                     ease: "linear",
                   }}
-                  className="absolute top-10 left-10 w-32 h-32 border-2 border-blue-200 rounded-full opacity-20"
+                  className="absolute top-10 left-10 w-32 h-32 border-2 border-violet-200 rounded-full opacity-20"
                 />
                 <motion.div
                   animate={{ rotate: -360 }}
@@ -278,7 +276,7 @@ export default function AboutSection({ data }: AboutProps) {
                     repeat: Number.POSITIVE_INFINITY,
                     ease: "linear",
                   }}
-                  className="absolute bottom-10 right-10 w-24 h-24 border-2 border-purple-200 rounded-full opacity-20"
+                  className="absolute bottom-10 right-10 w-24 h-24 border-2 border-fuchsia-200 rounded-full opacity-20"
                 />
                 <motion.div
                   animate={{ rotate: 360 }}
@@ -287,7 +285,7 @@ export default function AboutSection({ data }: AboutProps) {
                     repeat: Number.POSITIVE_INFINITY,
                     ease: "linear",
                   }}
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-cyan-200 rounded-full opacity-15"
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-indigo-200 rounded-full opacity-15"
                 />
               </div>
 
@@ -303,7 +301,7 @@ export default function AboutSection({ data }: AboutProps) {
                   isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
                 }
                 transition={{ delay: 4, duration: 1, ease: "easeOut" }}
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-6 shadow-xl border-4 border-blue-100"
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-6 shadow-xl border-4 border-violet-100"
               >
                 <motion.div
                   animate={{ rotate: [0, 5, -5, 0] }}
@@ -314,9 +312,9 @@ export default function AboutSection({ data }: AboutProps) {
                   }}
                   className="text-center"
                 >
-                  <div className="text-2xl mb-2">🚀</div>
+                  <div className="text-2xl mb-2">🤖</div>
                   <div className="text-sm font-bold text-gray-800">
-                    Full Stack
+                    AI/GenAI
                   </div>
                   <div className="text-xs text-gray-600">Developer</div>
                 </motion.div>
