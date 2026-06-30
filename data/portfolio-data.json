@@ -1,8 +1,8 @@
 {
   "name": "Rahul Patidar",
-  "title": "Full Stack Developer | Aspiring AI/GenAI Developer",
+  "title": "AI/GenAI Developer | Full Stack Developer",
   "about": {
-    "description": "Full Stack Developer transitioning into AI/GenAI — building intelligent applications using LangChain, RAG pipelines, and LLM APIs alongside a MERN stack foundation. With 1+ year of professional experience, I've shipped production applications across healthcare, retail, and business management domains — from scalable EMR systems to a Warranty & Sales Management platform live across 4+ shops serving 1000+ customers per shop. Currently pursuing my MCA from DAVV, Indore while deepening my AI engineering skills through hands-on projects in LangChain, Prompt Engineering, NLP, and FastAPI.",
+    "description": "AI/GenAI Developer with a strong Full Stack foundation — building agentic AI systems using LangGraph, LangChain, RAG pipelines, and LLM APIs alongside a MERN stack background. With 1+ year of professional experience, I've shipped production applications across healthcare, retail, and business management domains. Currently building DocuMind, a multi-agent LangGraph platform for multilingual legal document intelligence, as my MCA capstone project. Pursuing my MCA from DAVV, Indore while deepening my AI engineering skills through hands-on projects in LangGraph, RAG, NLP, and FastAPI.",
     "image": "/images/profile.jpg"
   },
   "resume": {
@@ -24,6 +24,7 @@
       "Framer Motion"
     ],
     "backend": [
+      "FastAPI",
       "Node.js",
       "Express.js",
       "MongoDB",
@@ -35,10 +36,14 @@
       "Socket.IO"
     ],
     "ai_genai": [
+      "LangGraph",
       "LangChain",
       "RAG (Retrieval-Augmented Generation)",
+      "ChromaDB",
+      "FAISS",
+      "Agentic Workflows",
+      "Tool Calling",
       "Prompt Engineering (Zero-Shot, Few-Shot, CoT, ReAct, ToT)",
-      "FastAPI",
       "Groq API",
       "Gemini API"
     ],
@@ -70,6 +75,7 @@
       "GitHub Copilot"
     ],
     "concepts": [
+      "Multi-Agent Systems",
       "LLM Integration",
       "API Design",
       "Cloud Computing",
@@ -103,9 +109,9 @@
     {
       "position": "Software Developer Intern",
       "company": "Teconico Private Limited",
-      "duration": "June 2024 – October 2025",
+      "duration": "June 2024 – September 2025",
       "location": "Remote",
-      "description": "Engineered a scalable EMR web application using the MERN stack, improving API response time by 30% through query optimization and efficient schema design. Automated a legacy MongoDB database migration using Python scripts, restructuring data across collections to align with updated schemas. Built and deployed a cross-platform Gym Management system (Web + React Native), enabling seamless staff operations and mobile accessibility."
+      "description": "Engineered a scalable EMR web application (Robosensy) using the MERN stack, improving API response time by 30% through query optimization and efficient schema design. Automated a legacy MongoDB database migration using Python scripts, restructuring data across 10+ collections to align with updated schemas. Built and deployed a cross-platform Gym Management system (Web + React Native), and managed deployments on AWS EC2 with Docker and CI/CD pipelines."
     },
     {
       "position": "React Developer Intern",
@@ -117,12 +123,20 @@
   ],
   "projects": [
     {
+      "name": "DocuMind",
+      "description": "A multi-agent document intelligence platform built with LangGraph — featuring 6 specialized agents (extraction, classification, summarization, risk, QA, routing) for automated processing of Hindi/English/Hinglish legal documents. Built a hybrid RAG pipeline (ChromaDB + BM25) achieving ~85% retrieval accuracy on 50+ page multilingual legal corpora with sub-2s query latency. Engineered a regex + LLM-based NER extraction pipeline for structured parsing of legal entities (parties, dates, obligations, penalty clauses). Delivered as a full-stack platform with an async FastAPI backend and a Next.js frontend featuring real-time streamed LLM output. Built as MCA capstone project.",
+      "tags": ["LangGraph", "LangChain", "FastAPI", "ChromaDB", "Groq API", "Next.js"],
+      "image": "/images/documind.png",
+      "link": "https://github.com/Rahul10092002/Documind",
+      "liveLink": ""
+    },
+    {
       "name": "WarrantyDesk",
-      "description": "A full-stack Sales & Warranty Management System, live across 4+ retail shops handling 1000+ customers per shop with real-time tracking. Features automated warranty expiry alerts, invoice generation, and role-based dashboards (Admin/Staff) backed by scalable REST APIs and Redux Toolkit state management. Currently being extended with AI-powered features (LLM integration experiments).",
+      "description": "A full-stack Sales & Warranty Management SaaS, adopted by 50+ shop owners across India, each managing 1000+ customer records with real-time tracking. Features automated warranty expiry alerts, invoice generation, and role-based dashboards (Admin/Staff) backed by scalable REST APIs and Redux Toolkit state management.",
       "tags": ["MERN Stack", "Redux Toolkit", "REST APIs"],
       "image": "/images/warrantydesk.png",
       "link": "",
-      "liveLink": "https://warrantydesk.vercel.app"
+      "liveLink": "https://warrantydesk.in"
     },
     {
       "name": "Resume Parse Tool",
@@ -134,11 +148,11 @@
     },
     {
       "name": "Inventory Management System",
-      "description": "A comprehensive inventory management application built using the Nextjs stack. Features include role-based access control, real-time inventory updates, and detailed analytics dashboard for administrators.",
+      "description": "A comprehensive inventory management application built using the Next.js stack. Features include role-based access control, real-time inventory updates, and detailed analytics dashboard for administrators.",
       "tags": ["Next.js", "Redux", "Node.js", "PostgreSQL", "Tailwind CSS"],
       "image": "/images/project1.png",
       "link": "https://github.com/Rahul10092002/Inventory_Management",
-      "liveLink": "https://inventory-demo.vercel.app"
+      "liveLink": ""
     },
     {
       "name": "Share-Prompt",
@@ -146,7 +160,7 @@
       "tags": ["Next.js", "MongoDB", "NextAuth", "Tailwind CSS"],
       "image": "/images/project4.png",
       "link": "https://github.com/Rahul10092002/share-prompt",
-      "liveLink": "https://share-prompt-demo.vercel.app"
+      "liveLink": ""
     },
     {
       "name": "Travel-Buddy",
@@ -154,7 +168,7 @@
       "tags": ["Node.js", "Express.js", "MongoDB", "React.js", "Mapbox"],
       "image": "/images/project5.png",
       "link": "https://github.com/Rahul10092002/travel-buddy",
-      "liveLink": "https://travel-buddy-demo.vercel.app"
+      "liveLink": ""
     },
     {
       "name": "Doc-Connect",
@@ -162,7 +176,7 @@
       "tags": ["Next.js", "React.js", "Strapi", "Tailwind CSS"],
       "image": "/images/project6.png",
       "link": "https://github.com/Rahul10092002/doc-connect",
-      "liveLink": "https://doc-connect-demo.vercel.app"
+      "liveLink": ""
     },
     {
       "name": "Task Management App",
@@ -170,7 +184,7 @@
       "tags": ["React", "Firebase", "Material UI", "Real-time DB"],
       "image": "/images/project3.png",
       "link": "https://github.com/Rahul10092002/taskapp",
-      "liveLink": "https://taskapp-demo.vercel.app"
+      "liveLink": ""
     },
     {
       "name": "Portfolio Website",
@@ -178,7 +192,7 @@
       "tags": ["Next.js", "Tailwind CSS", "Framer Motion"],
       "image": "/images/project2.png",
       "link": "https://github.com/Rahul10092002/portfolio",
-      "liveLink": "https://rahulpatidar.vercel.app"
+      "liveLink": "https://rahul-portfolio-five-omega.vercel.app/"
     }
   ],
   "contact": {
@@ -186,9 +200,12 @@
     "phone": "+91-8085035032",
     "linkedin": "https://www.linkedin.com/in/rahul-patidar-838144234",
     "github": "https://github.com/Rahul10092002",
-    "twitter": "https://twitter.com"
   },
   "achievements": [
+    {
+      "title": "MCA Capstone Selection",
+      "description": "DocuMind selected as final-year capstone project — building a production-grade multi-agent AI system with LangGraph for multilingual legal document intelligence."
+    },
     {
       "title": "MERN Stack Full-Stack Development Certification",
       "description": "Completed an intensive hands-on program from Coding Shuttle focusing on real-world MERN applications."
