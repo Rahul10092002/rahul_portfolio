@@ -1,126 +1,232 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
-import { Asterisk, Cpu, Code, Server, Languages, PenToolIcon as Tool, Sparkles, Brain } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  Asterisk,
+  Code,
+  Server,
+  Languages,
+  Wrench,
+  Sparkles,
+  Brain,
+  Layers,
+  CheckCircle2,
+} from "lucide-react";
 
 interface SkillsProps {
   data: {
-    frontend: string[]
-    backend: string[]
-    languages: string[]
-    tools: string[]
-    concepts?: string[]
-    ai_genai?: string[]
-    ai_ml_concepts?: string[]
-    aiml?: string[]
-    aitools?: string[]
-  }
+    frontend: string[];
+    backend: string[];
+    languages: string[];
+    tools: string[];
+    concepts?: string[];
+    ai_genai?: string[];
+    ai_ml_concepts?: string[];
+    aiml?: string[];
+    aitools?: string[];
+  };
 }
 
 export default function SkillsSection({ data }: SkillsProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [activeTab, setActiveTab] = useState<string>("all");
 
-  const skillCategories = []
-
-  if (data.ai_genai && data.ai_genai.length > 0) {
-    skillCategories.push({
-      title: "AI & Generative AI",
-      icon: Sparkles,
-      skills: data.ai_genai,
-    })
-  }
-
-  if (data.ai_ml_concepts && data.ai_ml_concepts.length > 0) {
-    skillCategories.push({
-      title: "AI / ML Concepts",
-      icon: Brain,
-      skills: data.ai_ml_concepts,
-    })
-  }
-
-  skillCategories.push(
+  const skillCategories = [
+    ...(data.ai_genai && data.ai_genai.length > 0
+      ? [
+          {
+            id: "ai_genai",
+            title: "AI & Generative AI",
+            icon: Sparkles,
+            skills: data.ai_genai,
+            featured: true,
+            badgeStyle:
+              "bg-violet-50/80 text-violet-700 border-violet-200/80 hover:bg-violet-600 hover:text-white",
+            cardBg:
+              "bg-gradient-to-br from-violet-50/40 via-purple-50/20 to-white border-violet-200/80 shadow-xs",
+            accentColor: "text-violet-600",
+          },
+        ]
+      : []),
+    ...(data.ai_ml_concepts && data.ai_ml_concepts.length > 0
+      ? [
+          {
+            id: "ai_ml",
+            title: "AI & ML Concepts",
+            icon: Brain,
+            skills: data.ai_ml_concepts,
+            featured: false,
+            badgeStyle:
+              "bg-indigo-50/80 text-indigo-700 border-indigo-200/80 hover:bg-indigo-600 hover:text-white",
+            cardBg: "bg-white border-gray-100 shadow-2xs",
+            accentColor: "text-indigo-600",
+          },
+        ]
+      : []),
     {
-      title: "Frontend Technologies",
+      id: "frontend",
+      title: "Frontend Development",
       icon: Code,
       skills: data.frontend,
+      featured: false,
+      badgeStyle:
+        "bg-blue-50/80 text-blue-700 border-blue-200/80 hover:bg-blue-600 hover:text-white",
+      cardBg: "bg-white border-gray-100 shadow-2xs",
+      accentColor: "text-blue-600",
     },
     {
-      title: "Backend Technologies",
+      id: "backend",
+      title: "Backend & Databases",
       icon: Server,
       skills: data.backend,
+      featured: false,
+      badgeStyle:
+        "bg-emerald-50/80 text-emerald-700 border-emerald-200/80 hover:bg-emerald-600 hover:text-white",
+      cardBg: "bg-white border-gray-100 shadow-2xs",
+      accentColor: "text-emerald-600",
     },
     {
+      id: "languages",
       title: "Programming Languages",
       icon: Languages,
       skills: data.languages,
+      featured: false,
+      badgeStyle:
+        "bg-amber-50/80 text-amber-700 border-amber-200/80 hover:bg-amber-600 hover:text-white",
+      cardBg: "bg-white border-gray-100 shadow-2xs",
+      accentColor: "text-amber-600",
     },
     {
-      title: "Tools & Platforms",
-      icon: Tool,
+      id: "tools",
+      title: "Tools & DevOps",
+      icon: Wrench,
       skills: data.tools,
-    }
-  )
+      featured: false,
+      badgeStyle:
+        "bg-sky-50/80 text-sky-700 border-sky-200/80 hover:bg-sky-600 hover:text-white",
+      cardBg: "bg-white border-gray-100 shadow-2xs",
+      accentColor: "text-sky-600",
+    },
+    ...(data.concepts && data.concepts.length > 0
+      ? [
+          {
+            id: "concepts",
+            title: "Architecture & Systems",
+            icon: Layers,
+            skills: data.concepts,
+            featured: false,
+            badgeStyle:
+              "bg-teal-50/80 text-teal-700 border-teal-200/80 hover:bg-teal-600 hover:text-white",
+            cardBg: "bg-white border-gray-100 shadow-2xs",
+            accentColor: "text-teal-600",
+          },
+        ]
+      : []),
+  ];
 
-  if (data.concepts && data.concepts.length > 0) {
-    skillCategories.push({
-      title: "Concepts & Architecture",
-      icon: Asterisk,
-      skills: data.concepts,
-    })
-  }
+  const filterTabs = [
+    { id: "all", label: "All Skills" },
+    { id: "ai_genai", label: "AI & GenAI" },
+    { id: "frontend", label: "Frontend" },
+    { id: "backend", label: "Backend" },
+    { id: "languages", label: "Languages & Tools" },
+  ];
+
+  const displayedCategories =
+    activeTab === "all"
+      ? skillCategories
+      : activeTab === "languages"
+      ? skillCategories.filter((c) => ["languages", "tools"].includes(c.id))
+      : skillCategories.filter((c) => c.id === activeTab);
 
   return (
-    <section id="skills" className="py-20 bg-gray-50" ref={ref}>
+    <section id="skills" className="py-16 md:py-20 bg-gray-50/70 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-5xl"
+        className="container mx-auto max-w-6xl px-4 sm:px-6"
       >
-        <h2 className="text-4xl font-bold mb-2 text-blue-900">Technical Skills</h2>
-
-        {/* Blue underline */}
-        <div className="w-12 h-1 bg-blue-500 mb-6"></div>
-
-        <p className="text-gray-700 text-lg mb-12">
-          Proficient in a diverse range of technical domains and cutting-edge tools.
-        </p>
-
-      
-
-        {/* Other Skills Sections */}
-        {skillCategories.map((category, categoryIndex) => (
-          <motion.div
-            key={category.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ delay: 0.6 + categoryIndex * 0.2, duration: 0.6 }}
-            className="mb-12 last:mb-0 bg-white p-8 rounded-lg shadow-sm"
-          >
-            <h3 className="flex items-center gap-2 text-2xl font-semibold text-blue-500 mb-6">
-              <category.icon className="h-6 w-6" />
-              {category.title}
-            </h3>
-
-            <div className="flex flex-wrap gap-3">
-              {category.skills.map((skill, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                  transition={{ delay: 0.1 * index, duration: 0.4 }}
-                  className="bg-gray-100 text-gray-800 px-5 py-2 rounded-full text-sm font-medium"
-                >
-                  {skill}
-                </motion.span>
-              ))}
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100">
+              <Sparkles className="h-3.5 w-3.5" /> Core Competencies
             </div>
-          </motion.div>
-        ))}
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+              Technical Skills & Ecosystem
+            </h2>
+          </div>
+
+          {/* Quick Filter Tabs */}
+          <div className="flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 bg-gray-200/60 rounded-xl  max-w-full sm:max-w-max flex-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {filterTabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? "bg-white text-blue-700 shadow-xs"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Compact Bento Grid Layout */}
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <AnimatePresence mode="popLayout">
+            {displayedCategories.map((category) => (
+              <motion.div
+                key={category.id}
+                layout
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.3 }}
+                className={`p-5 rounded-2xl border transition-all duration-300 hover:shadow-md flex flex-col justify-between ${
+                  category.featured
+                    ? "md:col-span-2 lg:col-span-2 bg-gradient-to-br from-violet-50/80 via-purple-50/30 to-white border-violet-200 shadow-xs"
+                    : category.cardBg
+                }`}
+              >
+                <div>
+                  {/* Category Header */}
+                  <div className="flex items-center justify-between mb-3.5 pb-2.5 border-b border-gray-100">
+                    <h3 className="flex items-center gap-2.5 text-base font-bold text-gray-900">
+                      <div className={`p-1.5 rounded-lg bg-gray-100/80 ${category.accentColor}`}>
+                        <category.icon className="h-4 w-4" />
+                      </div>
+                      <span>{category.title}</span>
+                    </h3>
+                    <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                      {category.skills.length}
+                    </span>
+                  </div>
+
+                  {/* High-Density Pill Badges */}
+                  <div className="flex flex-wrap gap-2">
+                    {category.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className={`px-2.5 py-1 rounded-md text-xs font-medium border transition-all duration-200 cursor-default ${category.badgeStyle}`}
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </motion.div>
     </section>
-  )
+  );
 }

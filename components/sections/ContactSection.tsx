@@ -1,11 +1,21 @@
 "use client";
 
 import type React from "react";
-
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Phone, Linkedin, Github, Send } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  Linkedin,
+  Github,
+  Send,
+  Copy,
+  Check,
+  Clock,
+  MessageSquare,
+  Sparkles,
+} from "lucide-react";
 
 interface ContactProps {
   data: {
@@ -26,6 +36,13 @@ export default function ContactSection({ data }: ContactProps) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(data.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,161 +55,204 @@ export default function ContactSection({ data }: ContactProps) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitSuccess(true);
       setFormData({ name: "", email: "", message: "" });
 
-      // Reset success message after 5 seconds
       setTimeout(() => {
         setSubmitSuccess(false);
       }, 5000);
-    }, 1500);
+    }, 1200);
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50" ref={ref}>
+    <section id="contact" className="py-14 sm:py-16 bg-gray-50/50 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-6xl"
+        className="container mx-auto max-w-6xl px-4 sm:px-6"
       >
-        <h2 className="text-4xl font-bold mb-2 text-blue-900">Contact Me</h2>
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-2.5 border border-blue-100">
+              <Sparkles className="h-3.5 w-3.5" /> Direct Contact
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+              Get in Touch
+            </h2>
+          </div>
 
-        {/* Blue underline */}
-        <div className="w-12 h-1 bg-blue-500 mb-6"></div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-200/80 shadow-2xs">
+            <Clock className="h-3.5 w-3.5" /> Response guarantee ~24h
+          </div>
+        </div>
 
-        <p className="text-gray-700 text-lg mb-12">
-          Have a question or want to work together? Feel free to reach out!
-        </p>
-
-        <div className="grid md:grid-cols-2 gap-12">
+        {/* Compact 2-Column Contact Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          {/* Left Column: Direct Channels Grid */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="bg-white p-8 rounded-lg shadow-sm"
+            initial={{ opacity: 0, x: -15 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="lg:col-span-5 bg-white p-6 rounded-2xl shadow-xs border border-gray-100 flex flex-col justify-between"
           >
-            <h3 className="text-xl font-semibold mb-6 text-blue-900">Get in Touch</h3>
+            <div>
+              <h3 className="text-base font-bold text-gray-900 mb-4 pb-2.5 border-b border-gray-100 flex items-center justify-between">
+                <span>Reach Out Directly</span>
+                <span className="text-xs text-gray-400 font-medium">Quick Channels</span>
+              </h3>
 
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <Mail className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Email</p>
-                  <a
-                    href={`mailto:${data.email}`}
-                    className="text-blue-600 hover:underline"
+              <div className="grid grid-cols-1 gap-3">
+                {/* Email Card */}
+                <div className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-100 transition-all flex items-center justify-between gap-3 group">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="p-2.5 bg-blue-100/80 text-blue-600 rounded-lg flex-shrink-0">
+                      <Mail className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Email</p>
+                      <a
+                        href={`mailto:${data.email}`}
+                        className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate block"
+                      >
+                        {data.email}
+                      </a>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleCopyEmail}
+                    className="p-1.5 text-gray-400 hover:text-blue-600 bg-white hover:bg-blue-100/80 rounded-md border border-gray-200 transition-all flex-shrink-0"
+                    title="Copy Email"
                   >
-                    {data.email}
-                  </a>
+                    {copiedEmail ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-600" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                  </button>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <Phone className="h-5 w-5 text-blue-600" />
+                {/* Phone Card */}
+                <div className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-100 transition-all flex items-center gap-3 group">
+                  <div className="p-2.5 bg-blue-100/80 text-blue-600 rounded-lg flex-shrink-0">
+                    <Phone className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Phone</p>
+                    <a
+                      href={`tel:${data.phone}`}
+                      className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors"
+                    >
+                      {data.phone}
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-500">Phone</p>
-                  <a
-                    href={`tel:${data.phone}`}
-                    className="text-blue-600 hover:underline"
-                  >
-                    {data.phone}
-                  </a>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <Linkedin className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">LinkedIn</p>
+                {/* Social Profiles 2-Column Grid */}
+                <div className="grid grid-cols-2 gap-3">
                   <a
                     href={data.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
+                    className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-100 transition-all flex items-center gap-2.5 group"
                   >
-                    Connect on LinkedIn
+                    <div className="p-2 bg-blue-100/80 text-blue-600 rounded-lg">
+                      <Linkedin className="h-3.5 w-3.5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-gray-900 group-hover:text-blue-600">LinkedIn</p>
+                      <span className="text-[10px] text-gray-400">Connect</span>
+                    </div>
                   </a>
-                </div>
-              </div>
 
-              {data.github && (
-                <div className="flex items-center gap-3">
-                  <div className="bg-blue-100 p-3 rounded-full">
-                    <Github className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">GitHub</p>
+                  {data.github && (
                     <a
                       href={data.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-100 transition-all flex items-center gap-2.5 group"
                     >
-                      View GitHub Profile
+                      <div className="p-2 bg-blue-100/80 text-blue-600 rounded-lg">
+                        <Github className="h-3.5 w-3.5" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-gray-900 group-hover:text-blue-600">GitHub</p>
+                        <span className="text-[10px] text-gray-400">View Repos</span>
+                      </div>
                     </a>
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-gray-100">
+              <p className="text-xs text-gray-500 flex items-center gap-1.5">
+                <MessageSquare className="h-3.5 w-3.5 text-blue-500 flex-shrink-0" />
+                <span>Open for engineering roles & consulting.</span>
+              </p>
             </div>
           </motion.div>
 
+          {/* Right Column: Streamlined Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="bg-white p-8 rounded-lg shadow-sm"
+            initial={{ opacity: 0, x: 15 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 15 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="lg:col-span-7 bg-white p-6 rounded-2xl shadow-xs border border-gray-100"
           >
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+            <h3 className="text-base font-bold text-gray-900 mb-4 pb-2.5 border-b border-gray-100">
+              Send a Quick Message
+            </h3>
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+            <form onSubmit={handleSubmit} className="space-y-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-xs font-semibold text-gray-700 mb-1"
+                  >
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="e.g. Sarah Jenkins"
+                    required
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs bg-gray-50/50"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-xs font-semibold text-gray-700 mb-1"
+                  >
+                    Your Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="e.g. sarah@company.com"
+                    required
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs bg-gray-50/50"
+                  />
+                </div>
               </div>
 
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-xs font-semibold text-gray-700 mb-1"
                 >
                   Message
                 </label>
@@ -201,18 +261,19 @@ export default function ContactSection({ data }: ContactProps) {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
+                  placeholder="Tell me about your project or role..."
                   required
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs bg-gray-50/50 resize-none"
                 ></textarea>
               </div>
 
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`w-full flex items-center justify-center gap-2 py-3 px-4 bg-blue-600 text-white rounded-md font-medium transition-colors ${
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600 text-white rounded-lg font-semibold text-xs transition-all shadow-xs ${
                   isSubmitting
                     ? "opacity-70 cursor-not-allowed"
                     : "hover:bg-blue-700"
@@ -220,12 +281,12 @@ export default function ContactSection({ data }: ContactProps) {
               >
                 {isSubmitting ? (
                   <>
-                    <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="h-3.5 w-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     <span>Sending...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="h-5 w-5" />
+                    <Send className="h-3.5 w-3.5" />
                     <span>Send Message</span>
                   </>
                 )}
@@ -233,9 +294,9 @@ export default function ContactSection({ data }: ContactProps) {
 
               {submitSuccess && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-green-100 text-green-800 p-3 rounded-md text-center"
+                  className="bg-emerald-50 text-emerald-800 border border-emerald-200 p-2.5 rounded-lg text-center text-xs font-medium"
                 >
                   Thank you! Your message has been sent successfully.
                 </motion.div>
@@ -247,3 +308,4 @@ export default function ContactSection({ data }: ContactProps) {
     </section>
   );
 }
+

@@ -3,7 +3,19 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Link as ScrollLink } from "react-scroll";
-import { ArrowDown } from "lucide-react";
+import { useState } from "react";
+import {
+  ArrowDown,
+  Sparkles,
+  Copy,
+  Check,
+  FileText,
+  Briefcase,
+  Bot,
+  Users,
+  Code2,
+  Rocket
+} from "lucide-react";
 
 interface HomeProps {
   data: {
@@ -15,93 +27,219 @@ interface HomeProps {
     resume: {
       link: string;
     };
+    contact?: {
+      email: string;
+    };
   };
 }
 
 export default function HomeSection({ data }: HomeProps) {
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const email = data.contact?.email || "rahulpatidar2132@gmail.com";
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const metrics = [
+    { label: "Active SaaS Users", value: "500+", icon: Users },
+    { label: "LangGraph Subgraphs", value: "6 Agents", icon: Bot },
+    { label: "Latency Reduced", value: "87.5%", icon: Rocket },
+    { label: "Industry Experience", value: "1+ Yrs", icon: Briefcase },
+  ];
+
   return (
     <section
       id="home"
-      className="min-h-screen flex flex-col justify-center py-20 relative"
+      className="min-h-screen flex flex-col justify-center py-16 md:py-24 relative"
     >
-      <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="grid md:grid-cols-12 gap-10 items-center">
+        {/* Text Column */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
+          initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="order-2 md:order-1"
+          transition={{ duration: 0.7 }}
+          className="order-2 md:order-1 md:col-span-7"
         >
+          {/* Status Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs sm:text-sm font-semibold mb-6 shadow-xs"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span>Available for Full-Time AI & Full-Stack Engineering Roles</span>
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight tracking-tight text-gray-900"
           >
-            <span className="text-blue-900"> Hi, I'm</span>{" "}
-            <span className="text-blue-600">{data.name}</span>
+            Hi, I'm <span className="text-blue-600 font-extrabold">{data.name}</span>
           </motion.h1>
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-6 font-medium"
+            className="text-xl sm:text-2xl font-bold text-blue-900 mb-4 flex items-center gap-2"
           >
-            {data.title}
+            <span>{data.title}</span>
+            <Sparkles className="h-5 w-5 text-amber-500 inline" />
           </motion.h2>
+
+          {/* Domain Niche Pill Cloud */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.5 }}
+            className="flex flex-wrap gap-2 mb-6"
+          >
+            <span className="px-2.5 py-1 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold font-mono">
+              ⚡ LangGraph Subgraphs
+            </span>
+            <span className="px-2.5 py-1 rounded-md bg-violet-50 border border-violet-200 text-violet-700 text-xs font-semibold font-mono">
+              🛠️ FastMCP Tools
+            </span>
+            <span className="px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold font-mono">
+              🔍 Hybrid RAG (ChromaDB + BM25)
+            </span>
+            <span className="px-2.5 py-1 rounded-md bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold font-mono">
+              🚀 Production MERN SaaS
+            </span>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-gray-600 mb-8 text-lg leading-relaxed max-w-lg"
+            className="text-gray-600 mb-8 text-base sm:text-lg leading-relaxed max-w-xl"
           >
-            I create beautiful, functional, and responsive web applications with
-            modern technologies. Passionate about delivering exceptional user
-            experiences and scalable solutions.
+            Building production-ready <strong className="text-gray-900 font-semibold">Agentic AI systems</strong> using LangGraph, RAG pipelines, and custom MCP servers alongside robust <strong className="text-gray-900 font-semibold">Full Stack Web Applications</strong> with the MERN/Next.js stack.
           </motion.p>
 
+          {/* Action CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="flex flex-row gap-4"
+            className="flex flex-wrap items-center gap-2.5 mb-10"
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <ScrollLink
-                to="contact"
+                to="projects"
                 smooth={true}
                 duration={500}
-                className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-4 rounded-lg font-medium text-lg cursor-pointer hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-5 py-3 rounded-xl font-semibold text-sm cursor-pointer hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/20"
               >
-                Contact Me
+                <Rocket className="h-4 w-4" />
+                <span>Explore Projects</span>
               </ScrollLink>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <button
                 onClick={() => window.open(data.resume.link, "_blank")}
-                className="inline-flex items-center justify-center border-2 bg-blue-600 text-white px-8 py-4 rounded-lg font-medium text-lg cursor-pointer hover:bg-blue-600 hover:text-white transition-colors"
+                className="inline-flex items-center justify-center gap-2 border border-gray-300 bg-white text-gray-800 px-5 py-3 rounded-xl font-semibold text-sm cursor-pointer hover:bg-gray-50 hover:border-gray-400 transition-colors shadow-xs"
               >
-                Resume
+                <FileText className="h-4 w-4 text-blue-600" />
+                <span>Resume</span>
+              </button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <a
+                href="https://www.linkedin.com/in/rahul-patidar-838144234"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 border border-gray-200 bg-white text-gray-700 px-4 py-3 rounded-xl font-semibold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors shadow-xs"
+              >
+                <span>LinkedIn</span>
+              </a>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <a
+                href="https://github.com/Rahul10092002"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 border border-gray-200 bg-white text-gray-700 px-4 py-3 rounded-xl font-semibold text-sm hover:bg-gray-100 hover:text-gray-900 transition-colors shadow-xs"
+              >
+                <span>GitHub</span>
+              </a>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <button
+                onClick={handleCopyEmail}
+                className="inline-flex items-center justify-center gap-2 border border-blue-100 bg-blue-50 text-blue-700 px-4 py-3 rounded-xl font-semibold text-sm cursor-pointer hover:bg-blue-100 transition-colors"
+                title="Copy email address"
+              >
+                {copiedEmail ? (
+                  <>
+                    <Check className="h-4 w-4 text-emerald-600" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4 text-blue-600" />
+                    <span className="hidden sm:inline">Copy Email</span>
+                  </>
+                )}
               </button>
             </motion.div>
           </motion.div>
+
+          {/* Quick Metrics Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-gray-200/80"
+          >
+            {metrics.map((metric, idx) => (
+              <div
+                key={idx}
+                className="p-3 sm:p-3.5 bg-white rounded-2xl border border-gray-100 shadow-2xs hover:border-blue-200 hover:shadow-xs transition-all flex flex-col justify-between overflow-hidden"
+              >
+                <div className="flex items-center justify-between gap-1 mb-1.5">
+                  <span className="text-lg sm:text-xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">
+                    {metric.value}
+                  </span>
+                  <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg flex-shrink-0">
+                    <metric.icon className="h-4 w-4" />
+                  </div>
+                </div>
+                <p className="text-xs font-semibold text-gray-500 leading-snug">
+                  {metric.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
 
+        {/* Profile Image Column */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="order-1 md:order-2 flex justify-center"
+          className="order-1 md:order-2 md:col-span-5 flex justify-center"
         >
           <div className="relative">
-            {/* Decorative background elements */}
-            <div className="absolute -top-4 -left-4 w-72 h-72 md:w-96 md:h-96 bg-blue-100 rounded-full opacity-20"></div>
-            <div className="absolute -bottom-4 -right-4 w-64 h-64 md:w-80 md:h-80 bg-cyan-100 rounded-full opacity-30"></div>
+            {/* Background Decorative Rings */}
+            <div className="absolute -top-6 -left-6 w-72 h-72 md:w-88 md:h-88 bg-blue-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute -bottom-6 -right-6 w-64 h-64 md:w-76 md:h-76 bg-violet-400/20 rounded-full blur-2xl"></div>
 
-            {/* Main profile image */}
-            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-2xl z-10">
+            {/* Profile Image */}
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden border-4 border-white shadow-2xl z-10">
               <Image
                 src="/images/portfolio.png"
                 alt={data.name}
@@ -111,51 +249,59 @@ export default function HomeSection({ data }: HomeProps) {
               />
             </div>
 
-            {/* Floating elements */}
+            {/* Floating Badges */}
             <motion.div
-              animate={{ y: [0, -10, 0] }}
+              animate={{ y: [0, -8, 0] }}
               transition={{
                 duration: 3,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
               }}
-              className="absolute -top-2 -right-2 bg-blue-500 text-white p-3 rounded-full shadow-lg z-20"
+              className="absolute -top-3 -right-3 bg-white text-gray-800 px-3.5 py-2 rounded-2xl shadow-xl z-20 border border-gray-100 flex items-center gap-2"
             >
-              <span className="text-sm font-bold">💻</span>
+              <Bot className="h-4 w-4 text-violet-600" />
+              <span className="text-xs font-bold text-gray-900">LangGraph AI</span>
             </motion.div>
 
             <motion.div
-              animate={{ y: [0, 10, 0] }}
+              animate={{ y: [0, 8, 0] }}
               transition={{
                 duration: 2.5,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
                 delay: 1,
               }}
-              className="absolute -bottom-2 -left-2 bg-cyan-500 text-white p-3 rounded-full shadow-lg z-20"
+              className="absolute -bottom-3 -left-3 bg-white text-gray-800 px-3.5 py-2 rounded-2xl shadow-xl z-20 border border-gray-100 flex items-center gap-2"
             >
-              <span className="text-sm font-bold">🚀</span>
+              <Code2 className="h-4 w-4 text-blue-600" />
+              <span className="text-xs font-bold text-gray-900">Full-Stack MERN</span>
             </motion.div>
           </div>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 hidden md:block"
       >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{
-            duration: 2,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        ></motion.div>
+        <ScrollLink to="about" smooth={true} duration={500} className="cursor-pointer">
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "easeInOut",
+            }}
+            className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+          >
+            <ArrowDown className="h-5 w-5" />
+          </motion.div>
+        </ScrollLink>
       </motion.div>
     </section>
   );
 }
+

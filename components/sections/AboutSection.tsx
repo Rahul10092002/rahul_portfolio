@@ -198,7 +198,7 @@ export default function AboutSection({ data }: AboutProps) {
         transition={{ duration: 0.6 }}
         className="container mx-auto max-w-6xl"
       >
-        <h2 className="text-4xl font-bold mb-2">About Me</h2>
+        <h2 className="text-4xl font-bold mb-2 text-gray-900 tracking-tight">About Me</h2>
  
         {/* Violet underline */}
         <div className="w-12 h-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 mb-6"></div>
@@ -255,9 +255,9 @@ export default function AboutSection({ data }: AboutProps) {
               isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
             }
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="order-1 md:order-2 flex justify-center"
+            className="order-1 md:order-2 flex justify-center w-full overflow-hidden py-4"
           >
-            <div className="relative w-96 h-96">
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 max-w-full mx-auto">
               {/* Background Decorative Elements - Much slower */}
               <div className="absolute inset-0">
                 <motion.div
