@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
-import { Asterisk, Cpu, Code, Server, Languages, PenToolIcon as Tool } from "lucide-react"
+import { Asterisk, Cpu, Code, Server, Languages, PenToolIcon as Tool, Sparkles, Brain } from "lucide-react"
 
 interface SkillsProps {
   data: {
@@ -12,6 +12,8 @@ interface SkillsProps {
     languages: string[]
     tools: string[]
     concepts?: string[]
+    ai_genai?: string[]
+    ai_ml_concepts?: string[]
     aiml?: string[]
     aitools?: string[]
   }
@@ -21,8 +23,25 @@ export default function SkillsSection({ data }: SkillsProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
+  const skillCategories = []
 
-  const skillCategories = [
+  if (data.ai_genai && data.ai_genai.length > 0) {
+    skillCategories.push({
+      title: "AI & Generative AI",
+      icon: Sparkles,
+      skills: data.ai_genai,
+    })
+  }
+
+  if (data.ai_ml_concepts && data.ai_ml_concepts.length > 0) {
+    skillCategories.push({
+      title: "AI / ML Concepts",
+      icon: Brain,
+      skills: data.ai_ml_concepts,
+    })
+  }
+
+  skillCategories.push(
     {
       title: "Frontend Technologies",
       icon: Code,
@@ -42,13 +61,12 @@ export default function SkillsSection({ data }: SkillsProps) {
       title: "Tools & Platforms",
       icon: Tool,
       skills: data.tools,
-    },
-  ]
+    }
+  )
 
-  // Add concepts if they exist
   if (data.concepts && data.concepts.length > 0) {
     skillCategories.push({
-      title: "Concepts & Methodologies",
+      title: "Concepts & Architecture",
       icon: Asterisk,
       skills: data.concepts,
     })

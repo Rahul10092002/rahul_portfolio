@@ -117,7 +117,7 @@
     {
       "position": "Software Developer Intern",
       "company": "Teconico Private Limited",
-      "duration": "July 2024 – September 2025",
+      "duration": "June 2024 – September 2025",
       "location": "Remote",
       "description": "Engineered a scalable EMR web application (Robosensy) using the MERN stack, improving API response time by 30% through query optimization and efficient schema design. Automated a legacy MongoDB database migration using Python scripts, restructuring data across 10+ collections to align with updated schemas. Built and deployed a cross-platform Gym Management system (Web + React Native), and managed deployments on AWS EC2 with Docker and CI/CD pipelines."
     },
