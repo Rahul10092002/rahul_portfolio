@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, MapPin, Sparkles } from "lucide-react";
 
 interface Education {
   degree: string;
   institution: string;
   year: string;
+  location?: string;
+  description?: string;
 }
 
 interface EducationProps {
@@ -20,47 +22,78 @@ export default function EducationSection({ data }: EducationProps) {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="education" className="py-20" ref={ref}>
+    <section id="education" className="py-14 sm:py-16 bg-white relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto"
+        className="container mx-auto max-w-6xl px-4 sm:px-6"
       >
-        <h2 className="text-3xl font-bold mb-12 text-center text-blue-900">
-          Education
-        </h2>
+        {/* Section Header */}
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-2.5 border border-blue-100">
+            <Sparkles className="h-3.5 w-3.5" /> Academic Background
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            Education
+          </h2>
+        </div>
 
-        <div className="max-w-3xl mx-auto">
-          {data.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
-              className="relative pl-8 pb-12 last:pb-0"
-            >
-              {/* Timeline line */}
-              {index < data.length - 1 && (
-                <div className="absolute left-3.5 top-5 bottom-0 w-0.5 bg-blue-200"></div>
-              )}
+        {/* Education Card */}
+        <div className="bg-gray-50/70 p-6 sm:p-7 rounded-2xl shadow-xs border border-gray-100">
+          <h3 className="flex items-center gap-2.5 text-lg font-bold text-gray-900 mb-6 pb-3 border-b border-gray-200/60">
+            <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
+              <GraduationCap className="h-4 w-4" />
+            </div>
+            <span>Academic Qualifications</span>
+          </h3>
 
-              {/* Timeline dot */}
-              <div className="absolute left-0 top-1.5 bg-blue-500 rounded-full p-2 shadow-md">
-                <GraduationCap className="h-4 w-4 text-white" />
+          <div className="space-y-6">
+            {data.map((item, index) => (
+              <div key={index} className="relative flex gap-3.5">
+                {/* Timeline Axis */}
+                <div className="flex flex-col items-center flex-shrink-0">
+                  <div className="w-4 h-4 rounded-full bg-blue-600 border-2 border-white shadow-xs z-10 flex items-center justify-center mt-1">
+                    <div className="w-1 h-1 bg-white rounded-full"></div>
+                  </div>
+                  {index < data.length - 1 && (
+                    <div className="w-0.5 bg-blue-100 flex-1 my-1 rounded-full"></div>
+                  )}
+                </div>
+
+                {/* Content Block */}
+                <div className="pb-1 flex-1">
+                  <div className="flex flex-wrap items-center justify-between gap-1">
+                    <h4 className="text-base font-bold text-gray-900 leading-snug">
+                      {item.degree}
+                    </h4>
+                    <span className="text-xs font-semibold px-2.5 py-0.5 bg-gray-100 text-gray-700 rounded-md border border-gray-200">
+                      {item.year}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mt-1">
+                    <span className="text-blue-600 font-bold">{item.institution}</span>
+                    {item.location && (
+                      <>
+                        <span>•</span>
+                        <div className="flex items-center gap-1 text-gray-500">
+                          <MapPin size={12} className="text-blue-500" />
+                          <span>{item.location}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  {item.description && (
+                    <p className="text-gray-600 text-xs sm:text-sm mt-2 leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
               </div>
-
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  {item.degree}
-                </h3>
-                <p className="text-blue-600 font-medium mt-1">
-                  {item.institution}
-                </p>
-                <p className="text-gray-500 mt-1">{item.year}</p>
-              </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </motion.div>
     </section>

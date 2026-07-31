@@ -78,7 +78,7 @@ export default function HomeSection({ data }: HomeProps) {
   return (
     <section
       id="home"
-      className="min-h-screen flex flex-col justify-center py-16 md:py-24 relative"
+      className="min-h-screen flex flex-col justify-center py-8 md:py-16 relative"
     >
       <div className="grid md:grid-cols-12 gap-10 items-center">
         {/* Text Column */}

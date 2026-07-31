@@ -8,7 +8,8 @@ import Sidebar from "@/components/Sidebar";
 import HomeSection from "@/components/sections/HomeSection";
 import AboutSection from "@/components/sections/AboutSection";
 import SkillsSection from "@/components/sections/SkillsSection";
-import ResumeSection from "@/components/sections/ResumeSection";
+import ExperienceSection from "@/components/sections/ExperienceSection";
+import EducationSection from "@/components/sections/EducationSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import AchievementsSection from "@/components/sections/AchievementsSection";
 import ContactSection from "@/components/sections/ContactSection";
@@ -54,10 +55,8 @@ export default function Home() {
           <AboutSection data={portfolioData.about} />
           <SkillsSection data={portfolioData.skills} />
           <ProjectsSection data={portfolioData.projects} />
-          <ResumeSection
-            education={portfolioData.education}
-            experience={portfolioData.experience}
-          />
+          <ExperienceSection data={portfolioData.experience} />
+          <EducationSection data={portfolioData.education} />
           <AchievementsSection data={portfolioData.achievements} />
           <ContactSection data={portfolioData.contact} />
         </motion.div>
