@@ -143,34 +143,41 @@ export default function SkillsSection({ data }: SkillsProps) {
       : skillCategories.filter((c) => c.id === activeTab);
 
   return (
-    <section id="skills" className="py-16 md:py-20 bg-gray-50/70 relative" ref={ref}>
+    <section id="skills" className="py-16 md:py-20 lg:py-24 bg-gray-50/70 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-6xl px-4 sm:px-6"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100">
-              <Sparkles className="h-3.5 w-3.5" /> Core Competencies
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
+              <Sparkles className="h-3.5 w-3.5 text-blue-600" /> Core Competencies
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
               Technical Skills & Ecosystem
             </h2>
+            <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
           </div>
 
           {/* Quick Filter Tabs */}
-          <div className="flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 bg-gray-200/60 rounded-xl  max-w-full sm:max-w-max flex-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div
+            role="tablist"
+            aria-label="Skill categories filter"
+            className="flex items-center gap-1 sm:gap-1.5 p-1.5 bg-slate-200/60 rounded-xl max-w-full overflow-x-auto flex-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
             {filterTabs.map((tab) => (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={activeTab === tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-200 ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none ${
                   activeTab === tab.id
                     ? "bg-white text-blue-700 shadow-xs"
-                    : "text-gray-600 hover:text-gray-900"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
                 }`}
               >
                 {tab.label}

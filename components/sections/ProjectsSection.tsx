@@ -64,6 +64,31 @@ export default function ProjectsSection({ data }: ProjectsProps) {
   const [viewMode, setViewMode] = useState<"slider" | "grid">("slider");
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [itemsPerSlide, setItemsPerSlide] = useState(3);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 40;
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe && currentSlide < totalSlides - 1) {
+      nextSlide();
+    } else if (isRightSwipe && currentSlide > 0) {
+      prevSlide();
+    }
+  };
 
   const filterCategories = ["All", "AI & GenAI", "Full Stack"];
 
@@ -168,57 +193,63 @@ export default function ProjectsSection({ data }: ProjectsProps) {
   };
 
   return (
-    <section id="projects" className="py-20 bg-gray-50/50" ref={ref}>
+    <section id="projects" className="py-16 md:py-20 lg:py-24 bg-gray-50/50 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-7xl px-4"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
           <div>
-            <h2 className="text-4xl font-bold text-blue-900">Projects</h2>
-            <div className="w-12 h-1 bg-blue-500 my-3 rounded-full"></div>
-            <p className="text-gray-600 text-lg">
-              A showcase of my AI/GenAI systems, full-stack applications, and client work.
-            </p>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
+              <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+              <span>Featured Work</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+              Projects & Case Studies
+            </h2>
+            <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
           </div>
 
           {/* Filter Tabs & View Toggle */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <div className="flex items-center bg-white shadow-xs border border-gray-200 rounded-xl p-1 gap-1 overflow-x-auto">
+            <div className="flex items-center bg-white shadow-xs border border-slate-200 rounded-xl p-1 gap-1 overflow-x-auto">
               {filterCategories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveFilter(cat)}
-                  className={`px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-lg whitespace-nowrap transition-all ${
+                  className={`px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-lg whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none ${
                     activeFilter === cat
                       ? "bg-blue-600 text-white shadow-xs"
-                      : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                      : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
                   }`}
                 >
                   {cat}
                 </button>
               ))}
-              <div className="w-px h-5 bg-gray-200 mx-1 hidden sm:block" />
+              <div className="w-px h-5 bg-slate-200 mx-1 hidden sm:block" />
               <button
                 onClick={() => setViewMode("slider")}
+                aria-label="Switch to Carousel view"
                 title="Carousel View"
-                className={`p-1.5 sm:p-2 rounded-lg transition-colors ${
+                className={`p-1.5 sm:p-2 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none ${
                   viewMode === "slider"
                     ? "bg-blue-50 text-blue-600 font-semibold"
-                    : "text-gray-500 hover:text-gray-800"
+                    : "text-slate-500 hover:text-slate-800"
                 }`}
               >
                 <SlidersHorizontal className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setViewMode("grid")}
+                aria-label="Switch to Grid view"
                 title="Grid View"
-                className={`p-1.5 sm:p-2 rounded-lg transition-colors ${
+                className={`p-1.5 sm:p-2 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none ${
                   viewMode === "grid"
                     ? "bg-blue-50 text-blue-600 font-semibold"
-                    : "text-gray-500 hover:text-gray-800"
+                    : "text-slate-500 hover:text-slate-800"
                 }`}
               >
                 <LayoutGrid className="h-4 w-4" />
@@ -229,32 +260,42 @@ export default function ProjectsSection({ data }: ProjectsProps) {
 
         {/* View Mode: Carousel / Slider */}
         {viewMode === "slider" ? (
-          <div className="relative">
+          <div
+            className="relative"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Projects Carousel"
+          >
             {/* Navigation Buttons */}
             {totalSlides > 1 && (
               <>
                 <button
                   onClick={prevSlide}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10 bg-white shadow-xl border border-gray-100 rounded-full p-3 hover:bg-blue-50 hover:text-blue-600 text-gray-700 transition-all duration-200 hover:scale-110 disabled:opacity-30 disabled:pointer-events-none"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 md:-translate-x-5 z-10 bg-white shadow-xl border border-slate-200 rounded-full p-2.5 sm:p-3 hover:bg-blue-50 hover:text-blue-600 text-slate-700 transition-all duration-200 hover:scale-110 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none disabled:opacity-30 disabled:pointer-events-none"
                   disabled={currentSlide === 0}
                   aria-label="Previous Slide"
                 >
-                  <ChevronLeft className="h-6 w-6" />
+                  <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
                 </button>
 
                 <button
                   onClick={nextSlide}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 z-10 bg-white shadow-xl border border-gray-100 rounded-full p-3 hover:bg-blue-50 hover:text-blue-600 text-gray-700 transition-all duration-200 hover:scale-110 disabled:opacity-30 disabled:pointer-events-none"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 md:translate-x-5 z-10 bg-white shadow-xl border border-slate-200 rounded-full p-2.5 sm:p-3 hover:bg-blue-50 hover:text-blue-600 text-slate-700 transition-all duration-200 hover:scale-110 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none disabled:opacity-30 disabled:pointer-events-none"
                   disabled={currentSlide === totalSlides - 1}
                   aria-label="Next Slide"
                 >
-                  <ChevronRight className="h-6 w-6" />
+                  <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
                 </button>
               </>
             )}
 
-            {/* Slider Track */}
-            <div className="overflow-hidden py-4">
+            {/* Slider Track with Touch Swipe Support */}
+            <div
+              className="overflow-hidden py-4 touch-pan-y"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               <motion.div
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{
@@ -263,7 +304,7 @@ export default function ProjectsSection({ data }: ProjectsProps) {
               >
                 {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                   <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 px-1 sm:px-2">
                       {filteredProjects
                         .slice(
                           slideIndex * itemsPerSlide,
@@ -282,13 +323,13 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                                 isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                               }
                               transition={{ delay: index * 0.08, duration: 0.5 }}
-                              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col justify-between"
+                              className="group bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-xl border border-slate-200/80 transition-all duration-300 flex flex-col justify-between"
                             >
                               <div>
                                 {/* Project Image Container */}
                                 <div
                                   onClick={() => setSelectedProjectIndex(actualIndex)}
-                                  className="relative h-52 overflow-hidden cursor-pointer group/img"
+                                  className="relative h-48 sm:h-52 overflow-hidden cursor-pointer group/img"
                                 >
                                   <Image
                                     src={
@@ -299,6 +340,7 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                                     }
                                     alt={project.name}
                                     fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                     className="object-cover transition-transform duration-500 group-hover/img:scale-105"
                                   />
                                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/20 to-transparent opacity-60 group-hover/img:opacity-80 transition-opacity duration-300" />

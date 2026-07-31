@@ -41,15 +41,15 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 text-gray-900">
       <Sidebar activeSection={activeSection} />
 
-      <main className="flex-1 md:ml-64">
+      <main className="flex-1 md:ml-64 w-full min-w-0">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="container mx-auto px-4 py-8"
+          className="w-full flex flex-col"
         >
           <HomeSection data={portfolioData} />
           <AboutSection data={portfolioData.about} />

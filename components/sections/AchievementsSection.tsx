@@ -58,23 +58,24 @@ export default function AchievementsSection({ data }: AchievementsProps) {
   const items = data && data.length > 0 ? data : defaultAchievements;
 
   return (
-    <section id="achievements" className="py-16 bg-blue-900/5 my-12 rounded-3xl p-8 border border-blue-100" ref={ref}>
+    <section id="achievements" className="py-16 md:py-20 lg:py-24 bg-blue-900/5 border-y border-blue-100/60 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <div className="flex items-center gap-2 mb-2">
-          <Sparkles className="h-5 w-5 text-amber-500" />
-          <h3 className="text-sm font-bold uppercase tracking-wider text-blue-600">
-            Milestones & Recognition
-          </h3>
+        {/* Section Header */}
+        <div className="mb-8 md:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
+            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+            <span>Milestones & Recognition</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            Key Achievements & Impact
+          </h2>
+          <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
         </div>
-
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-8">
-          Key Achievements & Impact
-        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {items.map((item, index) => {

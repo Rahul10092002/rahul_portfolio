@@ -73,13 +73,14 @@ export default function Sidebar({ activeSection }: SidebarProps) {
     <>
       {/* Mobile Navigation Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-slate-900 shadow-lg">
-        <div className="flex justify-between items-center p-4">
+        <div className="flex justify-between items-center px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8">
+            <div className="relative w-9 h-9">
               <Image
                 src="/images/portfolio.png"
                 alt={portfolioData.name}
                 fill
+                sizes="36px"
                 className="object-cover rounded-full"
               />
             </div>
@@ -87,7 +88,13 @@ export default function Sidebar({ activeSection }: SidebarProps) {
               {portfolioData.name}
             </span>
           </div>
-          <button onClick={toggleMobileMenu} className="p-2 text-white">
+          <button
+            onClick={toggleMobileMenu}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            className="p-2 text-white hover:text-cyan-400 focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:outline-none rounded-lg"
+          >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>

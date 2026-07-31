@@ -22,25 +22,27 @@ export default function ExperienceSection({ data }: ExperienceProps) {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="experience" className="py-14 sm:py-16 bg-gray-50/70 relative" ref={ref}>
+    <section id="experience" className="py-16 md:py-20 lg:py-24 bg-gray-50/70 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-6xl px-4 sm:px-6"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         {/* Section Header */}
-        <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-2.5 border border-blue-100">
-            <Sparkles className="h-3.5 w-3.5" /> Career Journey
+        <div className="mb-8 md:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
+            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+            <span>Career Journey</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
             Work Experience
           </h2>
+          <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
         </div>
 
         {/* Experience Card */}
-        <div className="bg-white p-6 sm:p-7 rounded-2xl shadow-xs border border-gray-100">
+        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xs border border-slate-200/80">
           <h3 className="flex items-center gap-2.5 text-lg font-bold text-gray-900 mb-6 pb-3 border-b border-gray-100">
             <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
               <Briefcase className="h-4 w-4" />

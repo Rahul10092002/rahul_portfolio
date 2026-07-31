@@ -167,27 +167,34 @@ export default function AboutSection({ data }: AboutProps) {
   const floatingSkillsList = data.floatingSkills || defaultFloatingSkills;
 
   return (
-    <section id="about" className="py-20 bg-gray-50" ref={ref}>
+    <section id="about" className="py-16 md:py-20 lg:py-24 bg-gray-50 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-6xl"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <h2 className="text-4xl font-bold mb-2 text-gray-900 tracking-tight">About Me</h2>
+        {/* Section Header */}
+        <div className="mb-8 md:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
+            <Bot className="h-3.5 w-3.5 text-blue-600" />
+            <span>Background & Bio</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            About Me
+          </h2>
+          <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
+        </div>
 
-        {/* Violet underline */}
-        <div className="w-12 h-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 mb-6"></div>
-
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Content */}
-          <div className="order-2 md:order-1">
+          <div className="order-2 md:order-1 md:col-span-7">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <p className="text-gray-600 leading-relaxed text-lg mb-6">
+              <p className="text-slate-600 leading-relaxed text-base sm:text-lg mb-6">
                 {data.description}
               </p>
 
@@ -202,8 +209,8 @@ export default function AboutSection({ data }: AboutProps) {
               >
                 {highlightsList.map((highlight, idx) => (
                   <div key={idx} className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
-                    <span className="text-gray-700 font-medium">{highlight}</span>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full flex-shrink-0" />
+                    <span className="text-slate-700 font-medium text-sm sm:text-base">{highlight}</span>
                   </div>
                 ))}
               </motion.div>
@@ -217,10 +224,10 @@ export default function AboutSection({ data }: AboutProps) {
               isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
             }
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="order-1 md:order-2 flex justify-center w-full overflow-hidden py-4"
+            className="order-1 md:order-2 md:col-span-5 flex justify-center w-full overflow-hidden py-4"
           >
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 max-w-full mx-auto">
-              {/* Background Decorative Elements - Much slower */}
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 max-w-full mx-auto">
+              {/* Background Decorative Elements */}
               <div className="absolute inset-0">
                 <motion.div
                   animate={{ rotate: 360 }}
@@ -256,14 +263,14 @@ export default function AboutSection({ data }: AboutProps) {
                 <FloatingSkill key={index} skill={skill} index={index} />
               ))}
 
-              {/* Center Element - Slower animation */}
+              {/* Center Element */}
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={
                   isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
                 }
                 transition={{ delay: 4, duration: 1, ease: "easeOut" }}
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-6 shadow-xl border-4 border-violet-100"
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-5 sm:p-6 shadow-xl border-4 border-violet-100 z-20"
               >
                 <motion.div
                   animate={{ rotate: [0, 5, -5, 0] }}
@@ -274,11 +281,11 @@ export default function AboutSection({ data }: AboutProps) {
                   }}
                   className="text-center"
                 >
-                  <div className="text-2xl mb-2">🤖</div>
-                  <div className="text-sm font-bold text-gray-800">
+                  <div className="text-2xl mb-1">🤖</div>
+                  <div className="text-xs sm:text-sm font-bold text-slate-800">
                     AI/GenAI
                   </div>
-                  <div className="text-xs text-gray-600">Developer</div>
+                  <div className="text-[11px] text-slate-500 font-medium">Developer</div>
                 </motion.div>
               </motion.div>
             </div>

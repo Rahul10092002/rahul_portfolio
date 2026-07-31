@@ -70,25 +70,27 @@ export default function ContactSection({ data }: ContactProps) {
   };
 
   return (
-    <section id="contact" className="py-14 sm:py-16 bg-gray-50/50 relative" ref={ref}>
+    <section id="contact" className="py-16 md:py-20 lg:py-24 bg-gray-50/50 relative" ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="container mx-auto max-w-6xl px-4 sm:px-6"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 md:mb-12 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-2.5 border border-blue-100">
-              <Sparkles className="h-3.5 w-3.5" /> Direct Contact
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
+              <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+              <span>Direct Contact</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
               Get in Touch
             </h2>
+            <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-200/80 shadow-2xs">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-200/80 shadow-2xs">
             <Clock className="h-3.5 w-3.5" /> Response guarantee {data.responseGuarantee || "~24h"}
           </div>
         </div>
