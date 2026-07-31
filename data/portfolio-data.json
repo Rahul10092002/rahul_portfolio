@@ -1,9 +1,96 @@
 {
   "name": "Rahul Patidar",
   "title": "Full Stack & GenAI Engineer",
+  "statusBadge": "Available for Full-Time AI & Full-Stack Engineering Roles",
+  "heroDescription": "Building production-ready Agentic AI systems using LangGraph, RAG pipelines, and custom MCP servers alongside robust Full Stack Web Applications with the MERN/Next.js stack.",
+  "nicheTags": [
+    "⚡ LangGraph Subgraphs",
+    "🛠️ FastMCP Tools",
+    "🔍 Advanced RAG",
+    "🚀 Production MERN SaaS"
+  ],
+  "metrics": [
+    { "label": "User Impacted", "value": "5000+", "icon": "Users" },
+    { "label": "Agentic Ai Apps", "value": "3+", "icon": "Bot" },
+    { "label": "Latency Reduced", "value": "87.5%", "icon": "Rocket" },
+    { "label": "Industry Experience", "value": "1+ Yrs", "icon": "Briefcase" }
+  ],
   "about": {
     "description": "Full Stack & GenAI Engineer building agentic AI systems using LangGraph, LangChain, RAG pipelines, MCP servers, and FastAPI alongside a solid MERN stack foundation. With 1+ year of hands-on experience, I have shipped web applications across healthcare, retail, and business domains. Currently building ResearchPilot, a multi-agent AI research assistant with LangGraph subgraphs and custom MCP tools. Completed DocuMind, a 6-agent LangGraph platform for legal document intelligence, as my MCA capstone project at DAVV, Indore.",
-    "image": "/images/profile.jpg"
+    "image": "/images/profile.jpg",
+    "highlights": [
+      "Agentic AI Systems with LangGraph & LangChain",
+      "RAG Pipelines & LLM Integration",
+      "Full-Stack Delivery with FastAPI, Next.js & MERN"
+    ],
+    "floatingSkills": [
+      {
+        "label": "LangGraph",
+        "icon": "Bot",
+        "color": "bg-violet-600",
+        "position": { "top": "10%", "left": "15%" }
+      },
+      {
+        "label": "LangChain",
+        "icon": "Brain",
+        "color": "bg-indigo-600",
+        "position": { "top": "20%", "right": "10%" }
+      },
+      {
+        "label": "RAG",
+        "icon": "Network",
+        "color": "bg-fuchsia-600",
+        "position": { "top": "60%", "left": "5%" }
+      },
+      {
+        "label": "FastAPI",
+        "icon": "Zap",
+        "color": "bg-emerald-500",
+        "position": { "top": "15%", "left": "60%" }
+      },
+      {
+        "label": "ChromaDB",
+        "icon": "Database",
+        "color": "bg-blue-600",
+        "position": { "top": "70%", "right": "15%" }
+      },
+      {
+        "label": "Agentic AI",
+        "icon": "Workflow",
+        "color": "bg-purple-700",
+        "position": { "top": "45%", "left": "70%" }
+      },
+      {
+        "label": "Groq API",
+        "icon": "Cpu",
+        "color": "bg-pink-600",
+        "position": { "top": "80%", "left": "40%" }
+      },
+      {
+        "label": "Python",
+        "icon": "Code",
+        "color": "bg-blue-500",
+        "position": { "top": "35%", "right": "25%" }
+      },
+      {
+        "label": "Next.js",
+        "icon": "Globe",
+        "color": "bg-gray-800",
+        "position": { "top": "25%", "left": "35%" }
+      },
+      {
+        "label": "AWS",
+        "icon": "Cloud",
+        "color": "bg-amber-600",
+        "position": { "top": "55%", "right": "40%" }
+      },
+      {
+        "label": "Git",
+        "icon": "GitBranch",
+        "color": "bg-orange-600",
+        "position": { "top": "40%", "left": "20%" }
+      }
+    ]
   },
   "resume": {
     "link": "https://drive.google.com/file/d/1W5kzqPUWWCWMmP_Anj_3sh2_kPBx5eZc/view?usp=sharing",
@@ -131,35 +218,146 @@
   ],
   "projects": [
     {
+      "name": "PropConnect AI",
+      "description": "A production-grade multi-tenant real estate SaaS built solo, centered around an AI chatbot core that replaces predefined flows with a true LLM agent. Built with LangGraph orchestrating multi-turn conversation state, LangChain, and FastAPI, the assistant understands natural language, maintains context, collects buyer preferences (property type, budget, location, bedrooms), and invokes backend tools to search a 2,000+ listing catalog via structured SQL over PostgreSQL. Covers lead management/CRM with WhatsApp and call-reminder workflows, multi-agent/multi-branch property listing management, and human-in-the-loop site-visit scheduling (chatbot captures request → admin approves → customer confirmation). Deployed with Docker on AWS EC2, media assets on AWS S3.",
+      "tags": [
+        "LangGraph",
+        "LangChain",
+        "FastAPI",
+        "PostgreSQL",
+        "Groq Function Calling"
+      ],
+      "image": "/images/propconnect.png",
+      "link": "",
+      "liveLink": "",
+      "badge": "In Progress — Solo Build",
+      "architecture": [
+        {
+          "step": 1,
+          "title": "Buyer Inquiry",
+          "desc": "Natural language query via web/Telegram/WhatsApp"
+        },
+        {
+          "step": 2,
+          "title": "LangGraph Conversation Agent",
+          "desc": "Maintains multi-turn context, extracts preferences"
+        },
+        {
+          "step": 3,
+          "title": "Structured SQL Tool Calls",
+          "desc": "Searches 2,000+ listings via Postgres, not vector search"
+        },
+        {
+          "step": 4,
+          "title": "Lead & Visit Scheduling",
+          "desc": "Captures leads, routes site-visit requests for admin approval"
+        },
+        {
+          "step": 5,
+          "title": "Multi-Tenant Portal",
+          "desc": "Authenticated client portal + role-based Agency/Agent dashboards"
+        }
+      ],
+      "highlights": {
+        "title": "Multi-Tenant Real Estate AI Highlights",
+        "icon": "Building",
+        "theme": "teal",
+        "metrics": [
+          {
+            "value": "LLM Agent (not rule-based)",
+            "label": "LangGraph + Function Calling",
+            "color": "text-teal-600"
+          },
+          {
+            "value": "Multi-Tenant Architecture",
+            "label": "Agency, Agent & Client Roles",
+            "color": "text-cyan-600"
+          },
+          {
+            "value": "Human-in-the-Loop Booking",
+            "label": "Site Visit Approval Flow",
+            "color": "text-emerald-600"
+          }
+        ]
+      }
+    },
+    {
       "name": "ResearchPilot",
-      "description": "A multi-agent AI research assistant built with LangGraph subgraphs (Research, Analysis, Critic) and a custom MCP server exposing stock price, news, and company fundamentals tools via yfinance/Tavily. Features human-in-the-loop review via LangGraph interrupt/checkpoint, a self-refine critic loop, and scheduled research jobs via APScheduler. Instrumented with LangSmith tracing and deployed with Docker on AWS EC2, with a Next.js frontend on Vercel.",
-      "tags": ["LangGraph", "FastMCP", "FastAPI", "Next.js 15", "PostgreSQL", "Redis", "Docker", "AWS EC2"],
+      "description": "A multi-agent AI research assistant built with LangGraph subgraphs (Research, Analysis, Critic) and a custom MCP server exposing stock price, news, and company fundamentals tools via yfinance/Tavily. Features human-in-the-loop review via LangGraph interrupt/checkpoint, a self-refine critic loop, and scheduled research jobs via APScheduler. Instrumented with LangSmith tracing, with a Next.js frontend on Vercel.",
+      "tags": [
+        "LangGraph",
+        "FastMCP",
+        "FastAPI",
+        "Next.js 15",
+        "PostgreSQL",
+        "Redis",
+        "Docker"
+      ],
       "image": "/images/researchpilot.png",
       "link": "https://github.com/Rahul10092002/ResearchPilot",
       "liveLink": "",
-      "badge": "Multi-Agent + MCP",
+      "badge": "In Progress",
       "architecture": [
-        { "step": 1, "title": "User Query / Goal", "desc": "Ingests ticker or research prompt" },
-        { "step": 2, "title": "Supervisor Agent", "desc": "Orchestrates research & analysis subgraphs" },
-        { "step": 3, "title": "Custom MCP Server", "desc": "Executes yfinance & Tavily tools via MCP" },
-        { "step": 4, "title": "Critic & Human Checkpoint", "desc": "Self-refines output with human-in-the-loop approval" },
-        { "step": 5, "title": "LangSmith Traced Stream", "desc": "Streams tokens via FastAPI deployed on AWS EC2" }
+        {
+          "step": 1,
+          "title": "User Query / Goal",
+          "desc": "Ingests ticker or research prompt"
+        },
+        {
+          "step": 2,
+          "title": "Supervisor Agent",
+          "desc": "Orchestrates research & analysis subgraphs"
+        },
+        {
+          "step": 3,
+          "title": "Custom MCP Server",
+          "desc": "Executes yfinance & Tavily tools via MCP"
+        },
+        {
+          "step": 4,
+          "title": "Critic & Human Checkpoint",
+          "desc": "Self-refines output with human-in-the-loop approval"
+        },
+        {
+          "step": 5,
+          "title": "LangSmith Traced Stream",
+          "desc": "Streams tokens via FastAPI"
+        }
       ],
       "highlights": {
         "title": "MCP Server & Human-in-the-Loop Highlights",
         "icon": "Bot",
         "theme": "violet",
         "metrics": [
-          { "value": "Custom MCP Server", "label": "yfinance & Tavily Tools", "color": "text-violet-600" },
-          { "value": "Human-in-the-Loop", "label": "LangGraph Checkpoint", "color": "text-indigo-600" },
-          { "value": "Self-Refine Critic", "label": "LangSmith Tracing", "color": "text-purple-600" }
+          {
+            "value": "Custom MCP Server",
+            "label": "yfinance & Tavily Tools",
+            "color": "text-violet-600"
+          },
+          {
+            "value": "Human-in-the-Loop",
+            "label": "LangGraph Checkpoint",
+            "color": "text-indigo-600"
+          },
+          {
+            "value": "Self-Refine Critic",
+            "label": "LangSmith Tracing",
+            "color": "text-purple-600"
+          }
         ]
       }
     },
     {
       "name": "VoiceMentor",
       "description": "A voice-first RAG assistant combining CRAG and Self-RAG for higher-quality retrieval, with RAGAS-based evaluation. Built with an async FastAPI backend, ChromaDB + BM25 hybrid retrieval, and a Next.js frontend for real-time voice interaction.",
-      "tags": ["LangGraph", "RAGAS Evaluated", "FastAPI", "ChromaDB", "Next.js", "CRAG + Self-RAG"],
+      "tags": [
+        "LangGraph",
+        "RAGAS Evaluated",
+        "FastAPI",
+        "ChromaDB",
+        "Next.js",
+        "CRAG + Self-RAG"
+      ],
       "image": "/images/voicementor.png",
       "link": "https://github.com/Rahul10092002/VoiceMentor",
       "liveLink": "",
@@ -169,34 +367,84 @@
         "icon": "Zap",
         "theme": "amber",
         "metrics": [
-          { "value": "CRAG + Self-RAG", "label": "Corrective Retrieval Pipeline", "color": "text-amber-600" },
-          { "value": "RAGAS Evaluated", "label": "Faithfulness & Relevancy", "color": "text-orange-600" }
+          {
+            "value": "CRAG + Self-RAG",
+            "label": "Corrective Retrieval Pipeline",
+            "color": "text-amber-600"
+          },
+          {
+            "value": "RAGAS Evaluated",
+            "label": "Faithfulness & Relevancy",
+            "color": "text-orange-600"
+          }
         ]
       }
     },
     {
       "name": "DocuMind",
       "description": "A multi-agent document intelligence platform built with LangGraph — featuring 6 specialized agents (extraction, classification, summarization, risk, QA, routing) for automated processing of Hindi/English/Hinglish legal documents. Built a hybrid RAG pipeline (ChromaDB + BM25 + RRF) achieving ~85% retrieval accuracy on 50+ page multilingual legal corpora. Optimized latency from 56s to ~7s by bypassing LLM tool-calling serialization bottlenecks using Groq json_mode and implementing _chain_cache (speeding up RAG QA retrieval from 10s to 0.88s). Deployed with Docker on AWS EC2 with LangSmith tracing. Built as MCA capstone project.",
-      "tags": ["LangGraph (6 Agents)", "LangChain", "FastAPI Async", "ChromaDB + BM25", "Groq json_mode", "Next.js 15", "LangSmith", "Docker", "AWS EC2"],
+      "tags": [
+        "LangGraph (6 Agents)",
+        "LangChain",
+        "FastAPI Async",
+        "ChromaDB + BM25",
+        "Groq json_mode",
+        "Next.js 15",
+        "LangSmith",
+        "Docker",
+        "AWS EC2"
+      ],
       "image": "/images/documind.png",
       "link": "https://github.com/Rahul10092002/Documind",
       "liveLink": "",
       "badge": "MCA Capstone Project",
       "architecture": [
-        { "step": 1, "title": "Multilingual Ingestion", "desc": "Parses 50+ page Hindi/English legal PDFs" },
-        { "step": 2, "title": "Router Agent", "desc": "Classifies document clauses to specialist agents" },
-        { "step": 3, "title": "ChromaDB + BM25 RRF", "desc": "Hybrid retrieval engine (~85% accuracy)" },
-        { "step": 4, "title": "6-Agent Subgraph Execution", "desc": "Runs Extraction, QA, Risk & Summary in parallel" },
-        { "step": 5, "title": "Groq json_mode + Cache Fix", "desc": "Bypassed tool-call serialization & added _chain_cache (56s → 7s latency, RAG QA to 0.88s)" }
+        {
+          "step": 1,
+          "title": "Multilingual Ingestion",
+          "desc": "Parses 50+ page Hindi/English legal PDFs"
+        },
+        {
+          "step": 2,
+          "title": "Router Agent",
+          "desc": "Classifies document clauses to specialist agents"
+        },
+        {
+          "step": 3,
+          "title": "ChromaDB + BM25 RRF",
+          "desc": "Hybrid retrieval engine (~85% accuracy)"
+        },
+        {
+          "step": 4,
+          "title": "6-Agent Subgraph Execution",
+          "desc": "Runs Extraction, QA, Risk & Summary in parallel"
+        },
+        {
+          "step": 5,
+          "title": "Groq json_mode + Cache Fix",
+          "desc": "Bypassed tool-call serialization & added _chain_cache (56s → 7s latency, RAG QA to 0.88s)"
+        }
       ],
       "highlights": {
         "title": "Architecture & Performance Highlights",
         "icon": "Cpu",
         "theme": "blue",
         "metrics": [
-          { "value": "6 Agents Subgraph", "label": "LangGraph Pipeline", "color": "text-blue-600" },
-          { "value": "~85% Retrieval Acc.", "label": "ChromaDB + BM25 RRF", "color": "text-emerald-600" },
-          { "value": "56s → 7s Latency", "label": "Groq json_mode & _chain_cache", "color": "text-indigo-600" }
+          {
+            "value": "6 Agents Subgraph",
+            "label": "LangGraph Pipeline",
+            "color": "text-blue-600"
+          },
+          {
+            "value": "~85% Retrieval Acc.",
+            "label": "ChromaDB + BM25 RRF",
+            "color": "text-emerald-600"
+          },
+          {
+            "value": "56s → 7s Latency",
+            "label": "Groq json_mode & _chain_cache",
+            "color": "text-indigo-600"
+          }
         ]
       }
     },
@@ -213,8 +461,16 @@
         "icon": "Users",
         "theme": "emerald",
         "metrics": [
-          { "value": "500+ Active Shop Owners", "label": "Adopted across India", "color": "text-emerald-600" },
-          { "value": "1,000+ Customer Records/Shop", "label": "Real-Time Alerts & REST APIs", "color": "text-teal-600" }
+          {
+            "value": "5 Active Shop Owners",
+            "label": "Adopted across India",
+            "color": "text-emerald-600"
+          },
+          {
+            "value": "1,000+ Customer Records/Shop",
+            "label": "Real-Time Alerts & REST APIs",
+            "color": "text-teal-600"
+          }
         ]
       }
     },
@@ -240,8 +496,16 @@
         "icon": "Server",
         "theme": "cyan",
         "metrics": [
-          { "value": "30% API Latency Cut", "label": "Query & DB Schema Tuning", "color": "text-cyan-600" },
-          { "value": "Multi-Module EMR", "label": "Invoicing, Medicine & Auth", "color": "text-blue-600" }
+          {
+            "value": "30% API Latency Cut",
+            "label": "Query & DB Schema Tuning",
+            "color": "text-cyan-600"
+          },
+          {
+            "value": "Multi-Module EMR",
+            "label": "Invoicing, Medicine & Auth",
+            "color": "text-blue-600"
+          }
         ]
       }
     },
@@ -306,20 +570,31 @@
     "email": "rahulpatidar2132@gmail.com",
     "phone": "+91-8085035032",
     "linkedin": "https://www.linkedin.com/in/rahul-patidar-838144234",
-    "github": "https://github.com/Rahul10092002"
+    "github": "https://github.com/Rahul10092002",
+    "leetcode":"https://leetcode.com/u/rahulpatiidar",
+    "responseGuarantee": "~24h"
   },
   "achievements": [
     {
-      "title": "MCA Capstone Selection",
-      "description": "DocuMind selected as final-year capstone project — building a production-grade multi-agent AI system with LangGraph for multilingual legal document intelligence."
+      "title": "MCA Capstone Selection (DocuMind)",
+      "description": "DocuMind selected as final-year MCA capstone project — engineered a production-grade 6-agent LangGraph system with hybrid RAG (ChromaDB + BM25) for multilingual legal document parsing.",
+      "issuer": "Devi Ahilya Vishwavidyalaya (DAVV)",
+      "tag": "Academic Excellence",
+      "icon": "Trophy"
     },
     {
-      "title": "MERN Stack Full-Stack Development Certification",
-      "description": "Completed an intensive hands-on program from Coding Shuttle focusing on real-world MERN applications."
+      "title": "MERN Stack Full-Stack Certification",
+      "description": "Completed intensive hands-on certification from Coding Shuttle focusing on full-stack architecture, REST APIs, Redux Toolkit, and production MERN deployment.",
+      "issuer": "Coding Shuttle",
+      "tag": "Professional Certification",
+      "icon": "ShieldCheck"
     },
     {
-      "title": "Team Lead - E-Governance Internship",
-      "description": "Led a 4-member team and delivered core MERN stack modules contributing to digitization of public service workflows."
+      "title": "Team Lead — E-Governance Digitization Internship",
+      "description": "Led a 4-member developer team building MERN modules to digitize public service workflows, optimizing API response times and database architecture.",
+      "issuer": "Public Services Portal",
+      "tag": "Leadership & Impact",
+      "icon": "Users"
     }
   ]
 }

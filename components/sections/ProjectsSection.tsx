@@ -302,7 +302,12 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                                     className="object-cover transition-transform duration-500 group-hover/img:scale-105"
                                   />
                                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/20 to-transparent opacity-60 group-hover/img:opacity-80 transition-opacity duration-300" />
-
+                                  {project.badge && (
+                                    <div className="absolute top-3 left-3 bg-emerald-600/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm flex items-center gap-1.5 z-10">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                                      <span>{project.badge}</span>
+                                    </div>
+                                  )}
                                   <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-gray-800 p-2 rounded-full shadow hover:bg-white transition-all transform hover:scale-110">
                                     <Maximize2 className="h-4 w-4 text-blue-600" />
                                   </div>
@@ -442,7 +447,7 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/20 to-transparent opacity-60 group-hover/img:opacity-80 transition-opacity duration-300" />
                       {project.badge && (
-                        <div className="absolute top-3 left-3 bg-emerald-600/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md backdrop-blur-xs flex items-center gap-1.5 z-10">
+                        <div className="absolute top-3 left-3 bg-emerald-600/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm flex items-center gap-1.5 z-10">
                           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                           <span>{project.badge}</span>
                         </div>
@@ -545,17 +550,17 @@ export default function ProjectsSection({ data }: ProjectsProps) {
         )}
       </motion.div>
 
-      {/* FULL PROJECT DETAILS MODAL */}
+   
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
             {/* Backdrop Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProjectIndex(null)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-md"
+              className="fixed inset-0 bg-slate-950/70 backdrop-blur-md"
             />
 
             {/* Modal Dialog Card */}
@@ -564,10 +569,10 @@ export default function ProjectsSection({ data }: ProjectsProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.4 }}
-              className="relative bg-white rounded-3xl overflow-hidden shadow-2xl max-w-3xl w-full z-10 border border-gray-100 max-h-[90vh] flex flex-col my-auto"
+              className="relative bg-white rounded-3xl overflow-hidden shadow-2xl max-w-3xl sm:max-w-4xl w-full z-10 border border-gray-100 max-h-[88vh] flex flex-col my-auto"
             >
-              {/* Modal Header Image */}
-              <div className="relative h-64 sm:h-72 w-full bg-gray-900 flex-shrink-0">
+              {/* Modal Header Image Banner */}
+              <div className="relative h-36 sm:h-44 md:h-48 w-full bg-slate-950 flex-shrink-0 overflow-hidden">
                 <Image
                   src={
                     selectedProject.image ||
@@ -577,52 +582,58 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                   }
                   alt={selectedProject.name}
                   fill
-                  className="object-cover"
+                  className="object-cover opacity-85"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-slate-950/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/20" />
 
                 {/* Close Button */}
                 <button
                   onClick={() => setSelectedProjectIndex(null)}
-                  className="absolute top-4 right-4 bg-black/60 hover:bg-black/90 text-white p-2 rounded-full backdrop-blur-md transition-all duration-200 shadow-md border border-white/10"
+                  className="absolute top-3.5 right-3.5 z-20 bg-black/60 hover:bg-black/90 text-white p-2 rounded-full backdrop-blur-md transition-all duration-200 shadow-md border border-white/10"
                   aria-label="Close modal"
                 >
-                  <X className="h-5 w-5" />
+                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
 
-                {/* Project Modal Title Overlay */}
-                <div className="absolute bottom-6 left-6 right-6 text-white drop-shadow-md">
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {selectedProject.tags.slice(0, 3).map((tag) => (
+                {/* Project Title Overlay */}
+                <div className="absolute bottom-4 left-5 right-14 text-white drop-shadow-md">
+                  {selectedProject.badge && (
+                    <div className="inline-flex items-center gap-1.5 bg-emerald-600/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm mb-2 border border-emerald-400/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                      <span>{selectedProject.badge}</span>
+                    </div>
+                  )}
+                  <div className="flex flex-wrap gap-1.5 mb-1.5">
+                    {selectedProject.tags.slice(0, 4).map((tag) => (
                       <span
                         key={tag}
-                        className="bg-blue-600/90 text-white text-xs px-2.5 py-1 rounded-md font-semibold shadow-sm border border-blue-400/30"
+                        className="bg-blue-600/90 text-white text-[11px] px-2.5 py-0.5 rounded-md font-semibold shadow-xs border border-blue-400/30"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white drop-shadow-lg">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white drop-shadow-lg leading-tight">
                     {selectedProject.name}
                   </h3>
                 </div>
               </div>
 
-              {/* Modal Scrollable Body */}
-              <div className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
+              {/* Modal Scrollable Body (Maximized Content Space) */}
+              <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 min-h-0 bg-white">
                 {/* Dynamic Project Architecture & Key Metrics Callout */}
                 {selectedProject.highlights && (
                   <div
-                    className={`p-4 rounded-2xl border space-y-2 ${
+                    className={`p-4 sm:p-5 rounded-2xl border space-y-3 ${
                       selectedProject.highlights.theme === "violet"
-                        ? "bg-gradient-to-r from-violet-50 to-purple-50 border-violet-100/80 text-violet-900"
+                        ? "bg-gradient-to-r from-violet-50 via-purple-50 to-indigo-50 border-violet-100 text-violet-900"
                         : selectedProject.highlights.theme === "emerald"
-                        ? "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-100/80 text-emerald-900"
+                        ? "bg-gradient-to-r from-emerald-50 via-teal-50 to-green-50 border-emerald-100 text-emerald-900"
                         : selectedProject.highlights.theme === "amber"
-                        ? "bg-gradient-to-r from-amber-50 to-orange-50 border-amber-100/80 text-amber-900"
+                        ? "bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 border-amber-100 text-amber-900"
                         : selectedProject.highlights.theme === "cyan"
-                        ? "bg-gradient-to-r from-cyan-50 to-blue-50 border-cyan-100/80 text-cyan-900"
-                        : "bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100/80 text-blue-900"
+                        ? "bg-gradient-to-r from-cyan-50 via-blue-50 to-sky-50 border-cyan-100 text-cyan-900"
+                        : "bg-gradient-to-r from-blue-50 via-indigo-50 to-slate-50 border-blue-100 text-blue-900"
                     }`}
                   >
                     <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider">
@@ -640,7 +651,7 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                       <span>{selectedProject.highlights.title}</span>
                     </div>
                     <div
-                      className={`grid grid-cols-1 gap-2.5 pt-1 ${
+                      className={`grid grid-cols-1 gap-3 pt-1 ${
                         selectedProject.highlights.metrics.length === 2
                           ? "sm:grid-cols-2"
                           : "sm:grid-cols-3"
@@ -649,16 +660,16 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                       {selectedProject.highlights.metrics.map((metric, mIdx) => (
                         <div
                           key={mIdx}
-                          className="bg-white p-3 rounded-xl border border-gray-100 shadow-2xs"
+                          className="bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-gray-100 shadow-xs"
                         >
                           <span
-                            className={`font-extrabold block text-sm ${
+                            className={`font-extrabold block text-base ${
                               metric.color || "text-blue-600"
                             }`}
                           >
                             {metric.value}
                           </span>
-                          <span className="text-gray-500 text-xs font-medium">
+                          <span className="text-gray-600 text-xs font-medium leading-snug block mt-0.5">
                             {metric.label}
                           </span>
                         </div>
@@ -675,16 +686,17 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                   />
                 )}
 
+                {/* Project Overview & Breakdown */}
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2.5 flex items-center gap-1.5">
                     <Sparkles className="h-3.5 w-3.5" /> Project Overview & Breakdown
                   </h4>
-                  <div className="space-y-3">
+                  <div className="space-y-2.5">
                     {formatDescriptionSentences(selectedProject.description).map(
                       (sentence, idx) => (
                         <div
                           key={idx}
-                          className="flex items-start gap-3 p-3 rounded-xl bg-blue-50/40 border border-blue-100/50"
+                          className="flex items-start gap-3 p-3.5 rounded-xl bg-blue-50/40 border border-blue-100/50 hover:bg-blue-50/60 transition-colors"
                         >
                           <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
                           <p className="text-gray-800 text-sm sm:text-base leading-relaxed">
@@ -715,20 +727,23 @@ export default function ProjectsSection({ data }: ProjectsProps) {
               </div>
 
               {/* Modal Footer Controls */}
-              <div className="p-4 sm:p-6 bg-gray-50 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 flex-shrink-0">
+              <div className="py-3 px-4 sm:px-6 bg-gray-50/90 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 flex-shrink-0">
                 {/* Switch Projects inside Modal */}
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => navigateModal("prev")}
-                    className="p-2 text-gray-600 hover:text-blue-600 bg-white hover:bg-blue-50 border border-gray-200 rounded-lg transition-colors flex items-center gap-1 text-xs font-medium"
+                    className="p-1.5 sm:px-3 sm:py-1.5 text-gray-700 hover:text-blue-600 bg-white hover:bg-blue-50 border border-gray-200 rounded-lg transition-colors flex items-center gap-1 text-xs font-medium shadow-2xs"
                     title="Previous Project"
                   >
                     <ChevronLeft className="h-4 w-4" />
                     <span className="hidden sm:inline">Prev</span>
                   </button>
+                  <span className="text-xs text-gray-400 font-medium px-1">
+                    {(selectedProjectIndex ?? 0) + 1} / {filteredProjects.length}
+                  </span>
                   <button
                     onClick={() => navigateModal("next")}
-                    className="p-2 text-gray-600 hover:text-blue-600 bg-white hover:bg-blue-50 border border-gray-200 rounded-lg transition-colors flex items-center gap-1 text-xs font-medium"
+                    className="p-1.5 sm:px-3 sm:py-1.5 text-gray-700 hover:text-blue-600 bg-white hover:bg-blue-50 border border-gray-200 rounded-lg transition-colors flex items-center gap-1 text-xs font-medium shadow-2xs"
                     title="Next Project"
                   >
                     <span className="hidden sm:inline">Next</span>
@@ -737,13 +752,13 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                 </div>
 
                 {/* Action Links */}
-                <div className="flex items-center gap-3 ml-auto">
+                <div className="flex items-center gap-2.5 ml-auto">
                   {selectedProject.link && (
                     <a
                       href={selectedProject.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-gray-800 transition-colors shadow"
+                      className="flex items-center gap-2 px-3.5 py-2 bg-gray-900 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-gray-800 transition-colors shadow-xs"
                     >
                       <Github className="h-4 w-4" />
                       <span>View Code</span>
@@ -755,7 +770,7 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                       href={selectedProject.liveLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20"
+                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-500/20"
                     >
                       <ExternalLink className="h-4 w-4" />
                       <span>Live Demo</span>

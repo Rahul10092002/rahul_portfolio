@@ -9,6 +9,7 @@ import {
   Phone,
   Linkedin,
   Github,
+  Code2,
   Send,
   Copy,
   Check,
@@ -23,6 +24,8 @@ interface ContactProps {
     phone: string;
     linkedin: string;
     github?: string;
+    leetcode?: string;
+    responseGuarantee?: string;
   };
 }
 
@@ -86,7 +89,7 @@ export default function ContactSection({ data }: ContactProps) {
           </div>
 
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-200/80 shadow-2xs">
-            <Clock className="h-3.5 w-3.5" /> Response guarantee ~24h
+            <Clock className="h-3.5 w-3.5" /> Response guarantee {data.responseGuarantee || "~24h"}
           </div>
         </div>
 
@@ -152,8 +155,8 @@ export default function ContactSection({ data }: ContactProps) {
                   </div>
                 </div>
 
-                {/* Social Profiles 2-Column Grid */}
-                <div className="grid grid-cols-2 gap-3">
+                {/* Social Profiles Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <a
                     href={data.linkedin}
                     target="_blank"
@@ -182,6 +185,23 @@ export default function ContactSection({ data }: ContactProps) {
                       <div>
                         <p className="text-xs font-bold text-gray-900 group-hover:text-blue-600">GitHub</p>
                         <span className="text-[10px] text-gray-400">View Repos</span>
+                      </div>
+                    </a>
+                  )}
+
+                  {data.leetcode && (
+                    <a
+                      href={data.leetcode}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 rounded-xl bg-gray-50/70 hover:bg-amber-50/50 border border-gray-100 hover:border-amber-200 transition-all flex items-center gap-2.5 group"
+                    >
+                      <div className="p-2 bg-amber-100/80 text-amber-600 rounded-lg">
+                        <Code2 className="h-3.5 w-3.5" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-gray-900 group-hover:text-amber-600">LeetCode</p>
+                        <span className="text-[10px] text-gray-400">Profiles & Stats</span>
                       </div>
                     </a>
                   )}

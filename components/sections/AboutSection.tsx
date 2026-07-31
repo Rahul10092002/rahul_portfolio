@@ -17,84 +17,52 @@ import {
   Workflow,
 } from "lucide-react";
 
+interface FloatingSkillItem {
+  label: string;
+  icon: string;
+  color: string;
+  position: { top?: string; bottom?: string; left?: string; right?: string };
+}
+
 interface AboutProps {
   data: {
     description: string;
     image: string;
+    highlights?: string[];
+    floatingSkills?: FloatingSkillItem[];
   };
 }
 
-const majorSkills = [
-  {
-    icon: Bot,
-    label: "LangGraph",
-    color: "bg-violet-600",
-    position: { top: "10%", left: "15%" },
-  },
-  {
-    icon: Brain,
-    label: "LangChain",
-    color: "bg-indigo-600",
-    position: { top: "20%", right: "10%" },
-  },
-  {
-    icon: Network,
-    label: "RAG",
-    color: "bg-fuchsia-600",
-    position: { top: "60%", left: "5%" },
-  },
-  {
-    icon: Zap,
-    label: "FastAPI",
-    color: "bg-emerald-500",
-    position: { top: "15%", left: "60%" },
-  },
-  {
-    icon: Database,
-    label: "ChromaDB",
-    color: "bg-blue-600",
-    position: { top: "70%", right: "15%" },
-  },
-  {
-    icon: Workflow,
-    label: "Agentic AI",
-    color: "bg-purple-700",
-    position: { top: "45%", left: "70%" },
-  },
-  {
-    icon: Cpu,
-    label: "Groq API",
-    color: "bg-pink-600",
-    position: { top: "80%", left: "40%" },
-  },
-  {
-    icon: Code,
-    label: "Python",
-    color: "bg-blue-500",
-    position: { top: "35%", right: "25%" },
-  },
-  {
-    icon: Globe,
-    label: "Next.js",
-    color: "bg-gray-800",
-    position: { top: "25%", left: "35%" },
-  },
-  {
-    icon: Cloud,
-    label: "AWS",
-    color: "bg-amber-600",
-    position: { top: "55%", right: "40%" },
-  },
-  {
-    icon: GitBranch,
-    label: "Git",
-    color: "bg-orange-600",
-    position: { top: "40%", left: "20%" },
-  },
+const iconMap: Record<string, any> = {
+  Bot,
+  Brain,
+  Network,
+  Zap,
+  Database,
+  Workflow,
+  Cpu,
+  Code,
+  Globe,
+  Cloud,
+  GitBranch,
+};
+
+const defaultFloatingSkills: FloatingSkillItem[] = [
+  { label: "LangGraph", icon: "Bot", color: "bg-violet-600", position: { top: "10%", left: "15%" } },
+  { label: "LangChain", icon: "Brain", color: "bg-indigo-600", position: { top: "20%", right: "10%" } },
+  { label: "RAG", icon: "Network", color: "bg-fuchsia-600", position: { top: "60%", left: "5%" } },
+  { label: "FastAPI", icon: "Zap", color: "bg-emerald-500", position: { top: "15%", left: "60%" } },
+  { label: "ChromaDB", icon: "Database", color: "bg-blue-600", position: { top: "70%", right: "15%" } },
+  { label: "Agentic AI", icon: "Workflow", color: "bg-purple-700", position: { top: "45%", left: "70%" } },
+  { label: "Groq API", icon: "Cpu", color: "bg-pink-600", position: { top: "80%", left: "40%" } },
+  { label: "Python", icon: "Code", color: "bg-blue-500", position: { top: "35%", right: "25%" } },
+  { label: "Next.js", icon: "Globe", color: "bg-gray-800", position: { top: "25%", left: "35%" } },
+  { label: "AWS", icon: "Cloud", color: "bg-amber-600", position: { top: "55%", right: "40%" } },
+  { label: "Git", icon: "GitBranch", color: "bg-orange-600", position: { top: "40%", left: "20%" } },
 ];
 
-const FloatingSkill = ({ skill, index }: { skill: any; index: number }) => {
-  const IconComponent = skill.icon;
+const FloatingSkill = ({ skill, index }: { skill: FloatingSkillItem; index: number }) => {
+  const IconComponent = iconMap[skill.icon] || Code;
 
   return (
     <motion.div
@@ -190,6 +158,14 @@ export default function AboutSection({ data }: AboutProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const highlightsList = data.highlights || [
+    "Agentic AI Systems with LangGraph & LangChain",
+    "RAG Pipelines & LLM Integration",
+    "Full-Stack Delivery with FastAPI, Next.js & MERN",
+  ];
+
+  const floatingSkillsList = data.floatingSkills || defaultFloatingSkills;
+
   return (
     <section id="about" className="py-20 bg-gray-50" ref={ref}>
       <motion.div
@@ -199,7 +175,7 @@ export default function AboutSection({ data }: AboutProps) {
         className="container mx-auto max-w-6xl"
       >
         <h2 className="text-4xl font-bold mb-2 text-gray-900 tracking-tight">About Me</h2>
- 
+
         {/* Violet underline */}
         <div className="w-12 h-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 mb-6"></div>
 
@@ -215,8 +191,6 @@ export default function AboutSection({ data }: AboutProps) {
                 {data.description}
               </p>
 
-             
-
               {/* Key Highlights */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -226,24 +200,12 @@ export default function AboutSection({ data }: AboutProps) {
                 transition={{ delay: 0.8, duration: 0.6 }}
                 className="space-y-3"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
-                  <span className="text-gray-700 font-medium">
-                    Agentic AI Systems with LangGraph & LangChain
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
-                  <span className="text-gray-700 font-medium">
-                    RAG Pipelines & LLM Integration
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
-                  <span className="text-gray-700 font-medium">
-                    Full-Stack Delivery with FastAPI, Next.js & MERN
-                  </span>
-                </div>
+                {highlightsList.map((highlight, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-violet-600 rounded-full"></div>
+                    <span className="text-gray-700 font-medium">{highlight}</span>
+                  </div>
+                ))}
               </motion.div>
             </motion.div>
           </div>
@@ -290,7 +252,7 @@ export default function AboutSection({ data }: AboutProps) {
               </div>
 
               {/* Floating Skills */}
-              {majorSkills.map((skill, index) => (
+              {floatingSkillsList.map((skill, index) => (
                 <FloatingSkill key={index} skill={skill} index={index} />
               ))}
 

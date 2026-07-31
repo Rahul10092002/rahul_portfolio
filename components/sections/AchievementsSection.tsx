@@ -17,6 +17,13 @@ interface AchievementsProps {
   data?: Achievement[];
 }
 
+const iconMap: Record<string, any> = {
+  Trophy,
+  ShieldCheck,
+  Users,
+  Award,
+};
+
 export default function AchievementsSection({ data }: AchievementsProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -28,7 +35,7 @@ export default function AchievementsSection({ data }: AchievementsProps) {
         "DocuMind selected as final-year MCA capstone project — engineered a production-grade 6-agent LangGraph system with hybrid RAG (ChromaDB + BM25) for multilingual legal document parsing.",
       issuer: "Devi Ahilya Vishwavidyalaya (DAVV)",
       tag: "Academic Excellence",
-      icon: Trophy,
+      icon: "Trophy",
     },
     {
       title: "MERN Stack Full-Stack Certification",
@@ -36,7 +43,7 @@ export default function AchievementsSection({ data }: AchievementsProps) {
         "Completed intensive hands-on certification from Coding Shuttle focusing on full-stack architecture, REST APIs, Redux Toolkit, and production MERN deployment.",
       issuer: "Coding Shuttle",
       tag: "Professional Certification",
-      icon: ShieldCheck,
+      icon: "ShieldCheck",
     },
     {
       title: "Team Lead — E-Governance Digitization Internship",
@@ -44,7 +51,7 @@ export default function AchievementsSection({ data }: AchievementsProps) {
         "Led a 4-member developer team building MERN modules to digitize public service workflows, optimizing API response times and database architecture.",
       issuer: "Public Services Portal",
       tag: "Leadership & Impact",
-      icon: Users,
+      icon: "Users",
     },
   ];
 
@@ -71,7 +78,8 @@ export default function AchievementsSection({ data }: AchievementsProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {items.map((item, index) => {
-            const IconComponent = item.icon || Award;
+            const IconComponent =
+              (typeof item.icon === "string" ? iconMap[item.icon] : item.icon) || Award;
 
             return (
               <motion.div

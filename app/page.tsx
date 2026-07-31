@@ -53,11 +53,11 @@ export default function Home() {
           <HomeSection data={portfolioData} />
           <AboutSection data={portfolioData.about} />
           <SkillsSection data={portfolioData.skills} />
+          <ProjectsSection data={portfolioData.projects} />
           <ResumeSection
             education={portfolioData.education}
             experience={portfolioData.experience}
           />
-          <ProjectsSection data={portfolioData.projects} />
           <AchievementsSection data={portfolioData.achievements} />
           <ContactSection data={portfolioData.contact} />
         </motion.div>

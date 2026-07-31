@@ -17,10 +17,20 @@ import {
   Rocket
 } from "lucide-react";
 
+interface MetricItem {
+  label: string;
+  value: string;
+  icon: string;
+}
+
 interface HomeProps {
   data: {
     name: string;
     title: string;
+    statusBadge?: string;
+    heroDescription?: string;
+    nicheTags?: string[];
+    metrics?: MetricItem[];
     about: {
       image: string;
     };
@@ -43,11 +53,26 @@ export default function HomeSection({ data }: HomeProps) {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const metrics = [
-    { label: "Active SaaS Users", value: "500+", icon: Users },
-    { label: "LangGraph Subgraphs", value: "6 Agents", icon: Bot },
-    { label: "Latency Reduced", value: "87.5%", icon: Rocket },
-    { label: "Industry Experience", value: "1+ Yrs", icon: Briefcase },
+  const iconMap: Record<string, any> = {
+    Users,
+    Bot,
+    Rocket,
+    Briefcase,
+  };
+
+  const statusText =
+    data.statusBadge || "Available for Full-Time AI & Full-Stack Engineering Roles";
+  const tagsList = data.nicheTags || [
+    "⚡ LangGraph Subgraphs",
+    "🛠️ FastMCP Tools",
+    "🔍 Hybrid RAG (ChromaDB + BM25)",
+    "🚀 Production MERN SaaS",
+  ];
+  const metricsList = data.metrics || [
+    { label: "Active SaaS Users", value: "2k+", icon: "Users" },
+    { label: "Agentic Ai Apps", value: "3+", icon: "Bot" },
+    { label: "Latency Reduced", value: "87.5%", icon: "Rocket" },
+    { label: "Industry Experience", value: "1+ Yrs", icon: "Briefcase" },
   ];
 
   return (
@@ -74,7 +99,7 @@ export default function HomeSection({ data }: HomeProps) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <span>Available for Full-Time AI & Full-Stack Engineering Roles</span>
+            <span>{statusText}</span>
           </motion.div>
 
           <motion.h1
@@ -103,18 +128,22 @@ export default function HomeSection({ data }: HomeProps) {
             transition={{ delay: 0.45, duration: 0.5 }}
             className="flex flex-wrap gap-2 mb-6"
           >
-            <span className="px-2.5 py-1 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold font-mono">
-              ⚡ LangGraph Subgraphs
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-violet-50 border border-violet-200 text-violet-700 text-xs font-semibold font-mono">
-              🛠️ FastMCP Tools
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold font-mono">
-              🔍 Hybrid RAG (ChromaDB + BM25)
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold font-mono">
-              🚀 Production MERN SaaS
-            </span>
+            {tagsList.map((tag, idx) => (
+              <span
+                key={idx}
+                className={`px-2.5 py-1 rounded-md text-xs font-semibold font-mono ${
+                  idx === 0
+                    ? "bg-indigo-50 border border-indigo-200 text-indigo-700"
+                    : idx === 1
+                    ? "bg-violet-50 border border-violet-200 text-violet-700"
+                    : idx === 2
+                    ? "bg-amber-50 border border-amber-200 text-amber-700"
+                    : "bg-blue-50 border border-blue-200 text-blue-700"
+                }`}
+              >
+                {tag}
+              </span>
+            ))}
           </motion.div>
 
           <motion.p
@@ -123,7 +152,8 @@ export default function HomeSection({ data }: HomeProps) {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="text-gray-600 mb-8 text-base sm:text-lg leading-relaxed max-w-xl"
           >
-            Building production-ready <strong className="text-gray-900 font-semibold">Agentic AI systems</strong> using LangGraph, RAG pipelines, and custom MCP servers alongside robust <strong className="text-gray-900 font-semibold">Full Stack Web Applications</strong> with the MERN/Next.js stack.
+            {data.heroDescription ||
+              "Building production-ready Agentic AI systems using LangGraph, RAG pipelines, and custom MCP servers alongside robust Full Stack Web Applications with the MERN/Next.js stack."}
           </motion.p>
 
           {/* Action CTAs */}
@@ -205,24 +235,27 @@ export default function HomeSection({ data }: HomeProps) {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-gray-200/80"
           >
-            {metrics.map((metric, idx) => (
-              <div
-                key={idx}
-                className="p-3 sm:p-3.5 bg-white rounded-2xl border border-gray-100 shadow-2xs hover:border-blue-200 hover:shadow-xs transition-all flex flex-col justify-between overflow-hidden"
-              >
-                <div className="flex items-center justify-between gap-1 mb-1.5">
-                  <span className="text-lg sm:text-xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">
-                    {metric.value}
-                  </span>
-                  <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg flex-shrink-0">
-                    <metric.icon className="h-4 w-4" />
+            {metricsList.map((metric, idx) => {
+              const IconComp = iconMap[metric.icon] || Sparkles;
+              return (
+                <div
+                  key={idx}
+                  className="p-3 sm:p-3.5 bg-white rounded-2xl border border-gray-100 shadow-2xs hover:border-blue-200 hover:shadow-xs transition-all flex flex-col justify-between overflow-hidden"
+                >
+                  <div className="flex items-center justify-between gap-1 mb-1.5">
+                    <span className="text-lg sm:text-xl font-extrabold text-gray-900 tracking-tight leading-none whitespace-nowrap">
+                      {metric.value}
+                    </span>
+                    <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg flex-shrink-0">
+                      <IconComp className="h-4 w-4" />
+                    </div>
                   </div>
+                  <p className="text-xs font-semibold text-gray-500 leading-snug">
+                    {metric.label}
+                  </p>
                 </div>
-                <p className="text-xs font-semibold text-gray-500 leading-snug">
-                  {metric.label}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </motion.div>
         </motion.div>
 
