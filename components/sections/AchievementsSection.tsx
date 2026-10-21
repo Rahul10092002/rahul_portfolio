@@ -58,23 +58,30 @@ export default function AchievementsSection({ data }: AchievementsProps) {
   const items = data && data.length > 0 ? data : defaultAchievements;
 
   return (
-    <section id="achievements" className="py-16 md:py-20 lg:py-24 bg-blue-900/5 border-y border-blue-100/60 relative" ref={ref}>
+    <section
+      id="achievements"
+      className="py-16 md:py-20 lg:py-24 relative overflow-hidden"
+      style={{ backgroundColor: "var(--bg-primary)" }}
+      ref={ref}
+    >
+      <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-amber-600/5 rounded-full blur-3xl pointer-events-none" />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
       >
         {/* Section Header */}
-        <div className="mb-8 md:mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+        <div className="mb-10 md:mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold mb-3 border border-amber-500/20 shadow-sm backdrop-blur-sm">
+            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
             <span>Milestones & Recognition</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
             Key Achievements & Impact
           </h2>
-          <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
+          <div className="w-12 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mt-3.5" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -88,32 +95,32 @@ export default function AchievementsSection({ data }: AchievementsProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ delay: index * 0.15, duration: 0.5 }}
-                className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md border border-gray-100 transition-all flex flex-col justify-between"
+                className="bg-[#141414] p-6 rounded-2xl shadow-xl border border-white/10 hover:border-amber-500/30 transition-all flex flex-col justify-between group"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
-                      <IconComponent className="h-6 w-6" />
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="p-3 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-xl group-hover:scale-110 transition-transform">
+                      <IconComponent className="h-5 w-5" />
                     </div>
                     {item.tag && (
-                      <span className="text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200/60 rounded-md">
+                      <span className="text-xs font-semibold px-2.5 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md">
                         {item.tag}
                       </span>
                     )}
                   </div>
 
-                  <h4 className="text-lg font-bold text-gray-900 mb-2">
+                  <h4 className="text-lg font-bold text-white mb-2.5 group-hover:text-amber-400 transition-colors">
                     {item.title}
                   </h4>
 
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                  <p className="text-slate-300 text-sm leading-relaxed mb-6">
                     {item.description}
                   </p>
                 </div>
 
                 {item.issuer && (
-                  <div className="pt-3 border-t border-gray-100 flex items-center gap-1.5 text-xs text-gray-500 font-medium">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                  <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs text-slate-400 font-medium">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
                     <span>Verified by {item.issuer}</span>
                   </div>
                 )}

@@ -10,10 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
-  Maximize2,
   Sparkles,
-  ChevronDown,
-  ChevronUp,
   LayoutGrid,
   SlidersHorizontal,
   Info,
@@ -22,7 +19,6 @@ import {
   Users,
   Zap,
   Server,
-  CheckCircle2
 } from "lucide-react";
 import ArchitectureFlowchart, { ArchitectureStep } from "../ArchitectureFlowchart";
 
@@ -41,7 +37,9 @@ interface ProjectHighlights {
 
 interface Project {
   name: string;
+  tagline?: string;
   description: string;
+  status?: string;
   tags: string[];
   image: string;
   link: string;
@@ -60,7 +58,6 @@ export default function ProjectsSection({ data }: ProjectsProps) {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
-  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   const [viewMode, setViewMode] = useState<"slider" | "grid">("slider");
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [itemsPerSlide, setItemsPerSlide] = useState(3);
@@ -81,685 +78,377 @@ export default function ProjectsSection({ data }: ProjectsProps) {
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-    if (isLeftSwipe && currentSlide < totalSlides - 1) {
-      nextSlide();
-    } else if (isRightSwipe && currentSlide > 0) {
-      prevSlide();
-    }
+    if (distance > minSwipeDistance && currentSlide < totalSlides - 1) nextSlide();
+    else if (distance < -minSwipeDistance && currentSlide > 0) prevSlide();
   };
 
   const filterCategories = ["All", "AI & GenAI", "Full Stack"];
 
   const filteredProjects = data.filter((project) => {
     if (activeFilter === "All") return true;
-
-    const isAI = project.tags.some((tag) =>
-      [
-        "LangGraph",
-        "LangChain",
-        "RAG",
-        "MCP",
-        "ChromaDB",
-        "Groq API",
-        "RAGAS",
-        "BM25",
-      ].includes(tag)
-    );
-
-    if (activeFilter === "AI & GenAI") {
-      return isAI;
-    }
-
-    if (activeFilter === "Full Stack") {
-      return !isAI; // Shows pure Full Stack & SaaS Web Apps
-    }
-
+    const aiTags = ["LangGraph", "LangChain", "RAG", "MCP", "ChromaDB", "Groq", "RAGAS", "BM25", "FastMCP", "CRAG"];
+    const isAI = project.tags.some((tag) => aiTags.some((at) => tag.includes(at)));
+    if (activeFilter === "AI & GenAI") return isAI;
+    if (activeFilter === "Full Stack") return !isAI;
     return true;
   });
 
   const getItemsPerSlide = () => {
     if (typeof window !== "undefined") {
-      if (window.innerWidth >= 1024) return 3; // lg screens
-      if (window.innerWidth >= 768) return 2; // md screens
-      return 1; // sm screens
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 768) return 2;
+      return 1;
     }
     return 3;
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      setItemsPerSlide(getItemsPerSlide());
-    };
+    const handleResize = () => setItemsPerSlide(getItemsPerSlide());
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    setCurrentSlide(0);
-  }, [activeFilter, viewMode]);
+  useEffect(() => { setCurrentSlide(0); }, [activeFilter, viewMode]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setSelectedProjectIndex(null);
-      }
+      if (e.key === "Escape") setSelectedProjectIndex(null);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const totalSlides = Math.ceil(filteredProjects.length / itemsPerSlide) || 1;
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
-  const toggleCardExpansion = (projectName: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpandedCards((prev) => ({
-      ...prev,
-      [projectName]: !prev[projectName],
-    }));
-  };
-
-  const selectedProject =
-    selectedProjectIndex !== null ? filteredProjects[selectedProjectIndex] : null;
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  const selectedProject = selectedProjectIndex !== null ? filteredProjects[selectedProjectIndex] : null;
 
   const navigateModal = (direction: "prev" | "next") => {
     if (selectedProjectIndex === null) return;
-    if (direction === "next") {
-      setSelectedProjectIndex((selectedProjectIndex + 1) % filteredProjects.length);
-    } else {
-      setSelectedProjectIndex(
-        (selectedProjectIndex - 1 + filteredProjects.length) % filteredProjects.length
-      );
-    }
+    if (direction === "next") setSelectedProjectIndex((selectedProjectIndex + 1) % filteredProjects.length);
+    else setSelectedProjectIndex((selectedProjectIndex - 1 + filteredProjects.length) % filteredProjects.length);
   };
 
-  const formatDescriptionSentences = (text: string) => {
-    const sentences = text.split(/(?<=\.)\s+/).filter(Boolean);
-    return sentences;
-  };
+  const formatDescriptionSentences = (text: string) => text.split(/(?<=\.)\s+/).filter(Boolean);
+
+  const highlightIconMap: Record<string, any> = { Bot, Users, Zap, Server, Cpu };
+
+  const ProjectCard = ({ project, index, onClick }: { project: Project; index: number; onClick: () => void }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ delay: index * 0.08, duration: 0.5 }}
+      className="group rounded-xl overflow-hidden transition-all duration-300 flex flex-col justify-between"
+      style={{
+        backgroundColor: 'var(--bg-card)',
+        border: '1px solid var(--border-default)',
+      }}
+    >
+      <div>
+        {/* Image */}
+        <div onClick={onClick} className="relative h-48 sm:h-52 overflow-hidden cursor-pointer group/img">
+          <Image
+            src={project.image}
+            alt={project.name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover/img:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-70 group-hover/img:opacity-90 transition-opacity" />
+          {project.badge && (
+            <div className="absolute top-3 left-3 text-[11px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1.5 z-10"
+              style={{ backgroundColor: 'rgba(59,130,246,0.9)', color: '#fff' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+              <span>{project.badge}</span>
+            </div>
+          )}
+          <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+            <span className="text-xs font-medium px-2.5 py-1 rounded-md" style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)' }}>
+              {project.tags[0] || "Project"}
+            </span>
+            <span className="text-xs text-gray-300 font-medium flex items-center gap-1">
+              View details <ChevronRight className="h-3 w-3 inline" />
+            </span>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="p-5">
+          <h3 onClick={onClick} className="text-base font-bold mb-1 cursor-pointer transition-colors" style={{ color: 'var(--text-primary)' }}>
+            {project.name}
+          </h3>
+          {project.tagline && (
+            <p className="text-xs mb-3" style={{ color: 'var(--accent-blue)' }}>{project.tagline}</p>
+          )}
+          <p className="text-sm leading-relaxed line-clamp-3 mb-4" style={{ color: 'var(--text-secondary)' }}>
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {project.tags.slice(0, 4).map((tag) => (
+              <span
+                key={tag}
+                className="text-[11px] px-2 py-0.5 rounded-md font-medium"
+                style={{
+                  backgroundColor: 'var(--accent-blue-muted)',
+                  border: '1px solid rgba(59,130,246,0.15)',
+                  color: '#93C5FD',
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+            {project.tags.length > 4 && (
+              <span className="text-[11px] px-2 py-0.5 rounded-md font-medium" style={{ color: 'var(--text-muted)' }}>
+                +{project.tags.length - 4}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="px-5 pb-5 pt-0 flex items-center justify-between gap-2" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <button onClick={onClick} className="flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-lg transition-colors"
+          style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--text-secondary)' }}
+        >
+          <Info className="h-3.5 w-3.5" />
+          <span>Details</span>
+        </button>
+        <div className="flex items-center gap-2 ml-auto">
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1 text-xs font-medium px-3 py-2 rounded-lg transition-colors"
+              style={{ border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}
+            >
+              <Github className="h-3.5 w-3.5" />
+              <span>Code</span>
+            </a>
+          )}
+          {project.liveLink && (
+            <a href={project.liveLink} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1 text-xs font-medium px-3 py-2 rounded-lg transition-colors"
+              style={{ backgroundColor: 'var(--accent-blue)', color: '#fff' }}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              <span>Live</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
 
   return (
-    <section id="projects" className="py-16 md:py-20 lg:py-24 bg-gray-50/50 relative" ref={ref}>
+    <section id="projects" className="py-16 md:py-20 lg:py-24 relative section-glow" style={{ backgroundColor: 'var(--bg-primary)' }} ref={ref}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
         className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        {/* Section Header */}
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3 border border-blue-100/80 shadow-2xs">
-              <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold mb-3"
+              style={{ backgroundColor: 'var(--accent-blue-muted)', border: '1px solid rgba(59,130,246,0.2)', color: '#93C5FD' }}
+            >
+              <Sparkles className="h-3.5 w-3.5" />
               <span>Featured Work</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
               Projects & Case Studies
             </h2>
-            <div className="w-12 h-1 bg-blue-600 rounded-full mt-3.5" />
           </div>
 
-          {/* Filter Tabs & View Toggle */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <div className="flex items-center bg-white shadow-xs border border-slate-200 rounded-xl p-1 gap-1 overflow-x-auto">
+          {/* Filters */}
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center rounded-lg p-1 gap-0.5" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
               {filterCategories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveFilter(cat)}
-                  className={`px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-lg whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none ${
-                    activeFilter === cat
-                      ? "bg-blue-600 text-white shadow-xs"
-                      : "text-slate-600 hover:text-blue-600 hover:bg-slate-50"
-                  }`}
+                <button key={cat} onClick={() => setActiveFilter(cat)}
+                  className="px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-all"
+                  style={{
+                    backgroundColor: activeFilter === cat ? 'var(--accent-blue)' : 'transparent',
+                    color: activeFilter === cat ? '#fff' : 'var(--text-tertiary)',
+                  }}
                 >
                   {cat}
                 </button>
               ))}
-              <div className="w-px h-5 bg-slate-200 mx-1 hidden sm:block" />
-              <button
-                onClick={() => setViewMode("slider")}
-                aria-label="Switch to Carousel view"
-                title="Carousel View"
-                className={`p-1.5 sm:p-2 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none ${
-                  viewMode === "slider"
-                    ? "bg-blue-50 text-blue-600 font-semibold"
-                    : "text-slate-500 hover:text-slate-800"
-                }`}
+              <div className="w-px h-4 mx-1" style={{ backgroundColor: 'var(--border-default)' }} />
+              <button onClick={() => setViewMode("slider")} aria-label="Carousel view"
+                className="p-1.5 rounded-md transition-colors"
+                style={{ color: viewMode === "slider" ? 'var(--accent-blue)' : 'var(--text-muted)' }}
               >
-                <SlidersHorizontal className="h-4 w-4" />
+                <SlidersHorizontal className="h-3.5 w-3.5" />
               </button>
-              <button
-                onClick={() => setViewMode("grid")}
-                aria-label="Switch to Grid view"
-                title="Grid View"
-                className={`p-1.5 sm:p-2 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none ${
-                  viewMode === "grid"
-                    ? "bg-blue-50 text-blue-600 font-semibold"
-                    : "text-slate-500 hover:text-slate-800"
-                }`}
+              <button onClick={() => setViewMode("grid")} aria-label="Grid view"
+                className="p-1.5 rounded-md transition-colors"
+                style={{ color: viewMode === "grid" ? 'var(--accent-blue)' : 'var(--text-muted)' }}
               >
-                <LayoutGrid className="h-4 w-4" />
+                <LayoutGrid className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* View Mode: Carousel / Slider */}
+        {/* Slider View */}
         {viewMode === "slider" ? (
-          <div
-            className="relative"
-            role="region"
-            aria-roledescription="carousel"
-            aria-label="Projects Carousel"
-          >
-            {/* Navigation Buttons */}
+          <div className="relative" role="region" aria-roledescription="carousel" aria-label="Projects Carousel">
             {totalSlides > 1 && (
               <>
-                <button
-                  onClick={prevSlide}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 md:-translate-x-5 z-10 bg-white shadow-xl border border-slate-200 rounded-full p-2.5 sm:p-3 hover:bg-blue-50 hover:text-blue-600 text-slate-700 transition-all duration-200 hover:scale-110 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none disabled:opacity-30 disabled:pointer-events-none"
-                  disabled={currentSlide === 0}
-                  aria-label="Previous Slide"
+                <button onClick={prevSlide} disabled={currentSlide === 0} aria-label="Previous Slide"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 md:-translate-x-5 z-10 p-2.5 rounded-full transition-all disabled:opacity-20"
+                  style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-strong)', color: 'var(--text-secondary)' }}
                 >
-                  <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <ChevronLeft className="h-5 w-5" />
                 </button>
-
-                <button
-                  onClick={nextSlide}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 md:translate-x-5 z-10 bg-white shadow-xl border border-slate-200 rounded-full p-2.5 sm:p-3 hover:bg-blue-50 hover:text-blue-600 text-slate-700 transition-all duration-200 hover:scale-110 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:outline-none disabled:opacity-30 disabled:pointer-events-none"
-                  disabled={currentSlide === totalSlides - 1}
-                  aria-label="Next Slide"
+                <button onClick={nextSlide} disabled={currentSlide === totalSlides - 1} aria-label="Next Slide"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 md:translate-x-5 z-10 p-2.5 rounded-full transition-all disabled:opacity-20"
+                  style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-strong)', color: 'var(--text-secondary)' }}
                 >
-                  <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <ChevronRight className="h-5 w-5" />
                 </button>
               </>
             )}
 
-            {/* Slider Track with Touch Swipe Support */}
-            <div
-              className="overflow-hidden py-4 touch-pan-y"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              <motion.div
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{
-                  transform: `translateX(-${currentSlide * 100}%)`,
-                }}
-              >
+            <div className="overflow-hidden py-4 touch-pan-y" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+              <motion.div className="flex" style={{ transform: `translateX(-${currentSlide * 100}%)`, transition: 'transform 0.5s ease-in-out' }}>
                 {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                   <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 px-1 sm:px-2">
-                      {filteredProjects
-                        .slice(
-                          slideIndex * itemsPerSlide,
-                          (slideIndex + 1) * itemsPerSlide
-                        )
-                        .map((project, index) => {
-                          const isExpanded = !!expandedCards[project.name];
-                          const isLongDescription = project.description.length > 120;
-                          const actualIndex = slideIndex * itemsPerSlide + index;
-
-                          return (
-                            <motion.div
-                              key={`${slideIndex}-${project.name}`}
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={
-                                isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                              }
-                              transition={{ delay: index * 0.08, duration: 0.5 }}
-                              className="group bg-white rounded-2xl overflow-hidden shadow-xs hover:shadow-xl border border-slate-200/80 transition-all duration-300 flex flex-col justify-between"
-                            >
-                              <div>
-                                {/* Project Image Container */}
-                                <div
-                                  onClick={() => setSelectedProjectIndex(actualIndex)}
-                                  className="relative h-48 sm:h-52 overflow-hidden cursor-pointer group/img"
-                                >
-                                  <Image
-                                    src={
-                                      project.image ||
-                                      `/placeholder.svg?height=224&width=400&text=${encodeURIComponent(
-                                        project.name
-                                      )}`
-                                    }
-                                    alt={project.name}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                    className="object-cover transition-transform duration-500 group-hover/img:scale-105"
-                                  />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/20 to-transparent opacity-60 group-hover/img:opacity-80 transition-opacity duration-300" />
-                                  {project.badge && (
-                                    <div className="absolute top-3 left-3 bg-emerald-600/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm flex items-center gap-1.5 z-10">
-                                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                                      <span>{project.badge}</span>
-                                    </div>
-                                  )}
-                                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-gray-800 p-2 rounded-full shadow hover:bg-white transition-all transform hover:scale-110">
-                                    <Maximize2 className="h-4 w-4 text-blue-600" />
-                                  </div>
-
-                                  <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
-                                    <span className="text-xs font-semibold px-2.5 py-1 bg-blue-600/90 backdrop-blur-sm rounded-md shadow-sm">
-                                      {project.tags[0] || "Project"}
-                                    </span>
-                                    <span className="text-xs text-gray-200 font-medium flex items-center gap-1 group-hover/img:text-white">
-                                      View details <ChevronRight className="h-3 w-3 inline" />
-                                    </span>
-                                  </div>
-                                </div>
-
-                                {/* Card Body */}
-                                <div className="p-6">
-                                  <h3
-                                    onClick={() => setSelectedProjectIndex(actualIndex)}
-                                    className="text-xl font-bold mb-3 text-gray-900 group-hover:text-blue-600 transition-colors cursor-pointer"
-                                  >
-                                    {project.name}
-                                  </h3>
-
-                                  <div className="mb-4 text-gray-600 text-sm leading-relaxed">
-                                    <p className="line-clamp-3">
-                                      {project.description}
-                                    </p>
-                                  </div>
-
-                                  {/* Tags */}
-                                  <div className="flex flex-wrap gap-1.5 mb-6">
-                                    {project.tags.map((tag) => (
-                                      <span
-                                        key={tag}
-                                        className="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-md font-medium border border-blue-100"
-                                      >
-                                        {tag}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Card Footer Actions */}
-                              <div className="px-6 pb-6 pt-0 flex items-center justify-between gap-2 border-t border-gray-50 pt-4">
-                                <button
-                                  onClick={() => setSelectedProjectIndex(actualIndex)}
-                                  className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-blue-600 bg-gray-100 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
-                                >
-                                  <Info className="h-3.5 w-3.5" />
-                                  <span>Details</span>
-                                </button>
-
-                                <div className="flex items-center gap-2 ml-auto">
-                                  {project.link && (
-                                    <a
-                                      href={project.link}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="flex items-center gap-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg transition-all hover:bg-gray-50"
-                                    >
-                                      <Github className="h-3.5 w-3.5" />
-                                      <span>Code</span>
-                                    </a>
-                                  )}
-
-                                  {project.liveLink && (
-                                    <a
-                                      href={project.liveLink}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="flex items-center gap-1 text-xs font-medium bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-                                    >
-                                      <ExternalLink className="h-3.5 w-3.5" />
-                                      <span>Live</span>
-                                    </a>
-                                  )}
-                                </div>
-                              </div>
-                            </motion.div>
-                          );
-                        })}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-1">
+                      {filteredProjects.slice(slideIndex * itemsPerSlide, (slideIndex + 1) * itemsPerSlide).map((project, index) => (
+                        <ProjectCard
+                          key={`${slideIndex}-${project.name}`}
+                          project={project}
+                          index={index}
+                          onClick={() => setSelectedProjectIndex(slideIndex * itemsPerSlide + index)}
+                        />
+                      ))}
                     </div>
                   </div>
                 ))}
               </motion.div>
             </div>
 
-            {/* Slide Indicators */}
             {totalSlides > 1 && (
               <div className="flex justify-center mt-6 gap-2">
                 {Array.from({ length: totalSlides }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    aria-label={`Go to slide ${index + 1}`}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      currentSlide === index
-                        ? "w-8 bg-blue-600"
-                        : "w-2.5 bg-gray-300 hover:bg-gray-400"
-                    }`}
+                  <button key={index} onClick={() => setCurrentSlide(index)} aria-label={`Go to slide ${index + 1}`}
+                    className="h-2 rounded-full transition-all duration-300"
+                    style={{
+                      width: currentSlide === index ? '2rem' : '0.5rem',
+                      backgroundColor: currentSlide === index ? 'var(--accent-blue)' : 'var(--border-strong)',
+                    }}
                   />
                 ))}
               </div>
             )}
           </div>
         ) : (
-          /* View Mode: Full Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
-            {filteredProjects.map((project, index) => {
-              const isExpanded = !!expandedCards[project.name];
-              const isLongDescription = project.description.length > 120;
-
-              return (
-                <motion.div
-                  key={`grid-${project.name}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05, duration: 0.4 }}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col justify-between"
-                >
-                  <div>
-                    <div
-                      onClick={() => setSelectedProjectIndex(index)}
-                      className="relative h-52 overflow-hidden cursor-pointer group/img"
-                    >
-                      <Image
-                        src={
-                          project.image ||
-                          `/placeholder.svg?height=224&width=400&text=${encodeURIComponent(
-                            project.name
-                          )}`
-                        }
-                        alt={project.name}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover/img:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/20 to-transparent opacity-60 group-hover/img:opacity-80 transition-opacity duration-300" />
-                      {project.badge && (
-                        <div className="absolute top-3 left-3 bg-emerald-600/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm flex items-center gap-1.5 z-10">
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                          <span>{project.badge}</span>
-                        </div>
-                      )}
-                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-gray-800 p-2 rounded-full shadow hover:bg-white transition-all transform hover:scale-110">
-                        <Maximize2 className="h-4 w-4 text-blue-600" />
-                      </div>
-                      <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
-                        <span className="text-xs font-semibold px-2.5 py-1 bg-blue-600/90 backdrop-blur-sm rounded-md shadow-sm">
-                          {project.tags[0] || "Project"}
-                        </span>
-                        <span className="text-xs text-gray-200 font-medium flex items-center gap-1 group-hover/img:text-white">
-                          View details <ChevronRight className="h-3 w-3 inline" />
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <h3
-                        onClick={() => setSelectedProjectIndex(index)}
-                        className="text-xl font-bold mb-3 text-gray-900 group-hover:text-blue-600 transition-colors cursor-pointer"
-                      >
-                        {project.name}
-                      </h3>
-
-                      <div className="mb-4 text-gray-600 text-sm leading-relaxed">
-                        <p className="line-clamp-3">
-                          {project.description}
-                        </p>
-                        {isLongDescription && (
-                          <button
-                            onClick={(e) => toggleCardExpansion(project.name, e)}
-                            className="mt-2 text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 focus:outline-none transition-colors"
-                          >
-                            {isExpanded ? (
-                              <>
-                                Show Less <ChevronUp className="h-3 w-3" />
-                              </>
-                            ) : (
-                              <>
-                                Read Full Description <ChevronDown className="h-3 w-3" />
-                              </>
-                            )}
-                          </button>
-                        )}
-                      </div>
-
-                      <div className="flex flex-wrap gap-1.5 mb-6">
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-md font-medium border border-blue-100"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="px-6 pb-6 pt-0 flex items-center justify-between gap-2 border-t border-gray-50 pt-4">
-                    <button
-                      onClick={() => setSelectedProjectIndex(index)}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-gray-700 hover:text-blue-600 bg-gray-100 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
-                    >
-                      <Info className="h-3.5 w-3.5" />
-                      <span>Details</span>
-                    </button>
-
-                    <div className="flex items-center gap-2 ml-auto">
-                      {project.link && (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg transition-all hover:bg-gray-50"
-                        >
-                          <Github className="h-3.5 w-3.5" />
-                          <span>Code</span>
-                        </a>
-                      )}
-
-                      {project.liveLink && (
-                        <a
-                          href={project.liveLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-xs font-medium bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5" />
-                          <span>Live</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-4">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={`grid-${project.name}`} project={project} index={index} onClick={() => setSelectedProjectIndex(index)} />
+            ))}
           </div>
         )}
       </motion.div>
 
-   
+      {/* Modal */}
       <AnimatePresence>
         {selectedProject && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-            {/* Backdrop Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedProjectIndex(null)}
-              className="fixed inset-0 bg-slate-950/70 backdrop-blur-md"
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedProjectIndex(null)}
+              className="fixed inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }}
             />
-
-            {/* Modal Dialog Card */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.4 }}
-              className="relative bg-white rounded-3xl overflow-hidden shadow-2xl max-w-3xl sm:max-w-4xl w-full z-10 border border-gray-100 max-h-[88vh] flex flex-col my-auto"
+              className="relative rounded-2xl overflow-hidden max-w-3xl sm:max-w-4xl w-full z-10 max-h-[88vh] flex flex-col my-auto"
+              style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-default)', boxShadow: 'var(--shadow-elevated)' }}
             >
-              {/* Modal Header Image Banner */}
-              <div className="relative h-36 sm:h-44 md:h-48 w-full bg-slate-950 flex-shrink-0 overflow-hidden">
-                <Image
-                  src={
-                    selectedProject.image ||
-                    `/placeholder.svg?height=300&width=600&text=${encodeURIComponent(
-                      selectedProject.name
-                    )}`
-                  }
-                  alt={selectedProject.name}
-                  fill
-                  className="object-cover opacity-85"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/20" />
-
-                {/* Close Button */}
-                <button
-                  onClick={() => setSelectedProjectIndex(null)}
-                  className="absolute top-3.5 right-3.5 z-20 bg-black/60 hover:bg-black/90 text-white p-2 rounded-full backdrop-blur-md transition-all duration-200 shadow-md border border-white/10"
-                  aria-label="Close modal"
+              {/* Modal Header */}
+              <div className="relative h-36 sm:h-44 md:h-48 w-full flex-shrink-0 overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)' }}>
+                <Image src={selectedProject.image} alt={selectedProject.name} fill className="object-cover opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
+                <button onClick={() => setSelectedProjectIndex(null)} aria-label="Close modal"
+                  className="absolute top-3.5 right-3.5 z-20 p-2 rounded-full transition-all"
+                  style={{ backgroundColor: 'rgba(0,0,0,0.6)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
                 >
                   <X className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
-
-                {/* Project Title Overlay */}
-                <div className="absolute bottom-4 left-5 right-14 text-white drop-shadow-md">
+                <div className="absolute bottom-4 left-5 right-14 text-white">
                   {selectedProject.badge && (
-                    <div className="inline-flex items-center gap-1.5 bg-emerald-600/90 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm mb-2 border border-emerald-400/30">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                    <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full mb-2"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.9)' }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
                       <span>{selectedProject.badge}</span>
                     </div>
                   )}
                   <div className="flex flex-wrap gap-1.5 mb-1.5">
                     {selectedProject.tags.slice(0, 4).map((tag) => (
-                      <span
-                        key={tag}
-                        className="bg-blue-600/90 text-white text-[11px] px-2.5 py-0.5 rounded-md font-semibold shadow-xs border border-blue-400/30"
+                      <span key={tag} className="text-[11px] px-2 py-0.5 rounded-md font-medium"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)' }}
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white drop-shadow-lg leading-tight">
-                    {selectedProject.name}
-                  </h3>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight leading-tight">{selectedProject.name}</h3>
                 </div>
               </div>
 
-              {/* Modal Scrollable Body (Maximized Content Space) */}
-              <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 min-h-0 bg-white">
-                {/* Dynamic Project Architecture & Key Metrics Callout */}
+              {/* Modal Body */}
+              <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 min-h-0">
+                {/* Highlights */}
                 {selectedProject.highlights && (
-                  <div
-                    className={`p-4 sm:p-5 rounded-2xl border space-y-3 ${
-                      selectedProject.highlights.theme === "violet"
-                        ? "bg-gradient-to-r from-violet-50 via-purple-50 to-indigo-50 border-violet-100 text-violet-900"
-                        : selectedProject.highlights.theme === "emerald"
-                        ? "bg-gradient-to-r from-emerald-50 via-teal-50 to-green-50 border-emerald-100 text-emerald-900"
-                        : selectedProject.highlights.theme === "amber"
-                        ? "bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 border-amber-100 text-amber-900"
-                        : selectedProject.highlights.theme === "cyan"
-                        ? "bg-gradient-to-r from-cyan-50 via-blue-50 to-sky-50 border-cyan-100 text-cyan-900"
-                        : "bg-gradient-to-r from-blue-50 via-indigo-50 to-slate-50 border-blue-100 text-blue-900"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider">
-                      {selectedProject.highlights.icon === "Bot" ? (
-                        <Bot className="h-4 w-4 text-violet-600" />
-                      ) : selectedProject.highlights.icon === "Users" ? (
-                        <Users className="h-4 w-4 text-emerald-600" />
-                      ) : selectedProject.highlights.icon === "Zap" ? (
-                        <Zap className="h-4 w-4 text-amber-600" />
-                      ) : selectedProject.highlights.icon === "Server" ? (
-                        <Server className="h-4 w-4 text-cyan-600" />
-                      ) : (
-                        <Cpu className="h-4 w-4 text-blue-600" />
-                      )}
+                  <div className="p-4 sm:p-5 rounded-xl space-y-3" style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-default)' }}>
+                    <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider" style={{ color: 'var(--accent-blue)' }}>
+                      {(() => { const I = highlightIconMap[selectedProject.highlights?.icon || "Cpu"] || Cpu; return <I className="h-4 w-4" />; })()}
                       <span>{selectedProject.highlights.title}</span>
                     </div>
-                    <div
-                      className={`grid grid-cols-1 gap-3 pt-1 ${
-                        selectedProject.highlights.metrics.length === 2
-                          ? "sm:grid-cols-2"
-                          : "sm:grid-cols-3"
-                      }`}
-                    >
+                    <div className={`grid grid-cols-1 gap-3 pt-1 ${selectedProject.highlights.metrics.length === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3"}`}>
                       {selectedProject.highlights.metrics.map((metric, mIdx) => (
-                        <div
-                          key={mIdx}
-                          className="bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-gray-100 shadow-xs"
-                        >
-                          <span
-                            className={`font-extrabold block text-base ${
-                              metric.color || "text-blue-600"
-                            }`}
-                          >
-                            {metric.value}
-                          </span>
-                          <span className="text-gray-600 text-xs font-medium leading-snug block mt-0.5">
-                            {metric.label}
-                          </span>
+                        <div key={mIdx} className="p-3 rounded-lg" style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}>
+                          <span className={`font-bold block text-base ${metric.color || "text-blue-400"}`}>{metric.value}</span>
+                          <span className="text-xs font-medium leading-snug block mt-0.5" style={{ color: 'var(--text-tertiary)' }}>{metric.label}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Architecture Flowchart Component */}
+                {/* Architecture */}
                 {selectedProject.architecture && selectedProject.architecture.length > 0 && (
-                  <ArchitectureFlowchart
-                    title={`${selectedProject.name} — Interactive Architecture Flow`}
-                    steps={selectedProject.architecture}
-                  />
+                  <ArchitectureFlowchart title={`${selectedProject.name} — Architecture Flow`} steps={selectedProject.architecture} />
                 )}
 
-                {/* Project Overview & Breakdown */}
+                {/* Description */}
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2.5 flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5" /> Project Overview & Breakdown
+                  <h4 className="text-xs font-bold uppercase tracking-wider mb-2.5 flex items-center gap-1.5" style={{ color: 'var(--accent-blue)' }}>
+                    <Sparkles className="h-3.5 w-3.5" /> Project Overview
                   </h4>
-                  <div className="space-y-2.5">
-                    {formatDescriptionSentences(selectedProject.description).map(
-                      (sentence, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-start gap-3 p-3.5 rounded-xl bg-blue-50/40 border border-blue-100/50 hover:bg-blue-50/60 transition-colors"
-                        >
-                          <div className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
-                          <p className="text-gray-800 text-sm sm:text-base leading-relaxed">
-                            {sentence}
-                          </p>
-                        </div>
-                      )
-                    )}
+                  <div className="space-y-2">
+                    {formatDescriptionSentences(selectedProject.description).map((sentence, idx) => (
+                      <div key={idx} className="flex items-start gap-3 p-3 rounded-lg" style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}>
+                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: 'var(--accent-blue)' }} />
+                        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{sentence}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                {/* Technologies / Stack */}
+                {/* Tech Stack */}
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">
-                    Technologies & Libraries
-                  </h4>
+                  <h4 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--text-tertiary)' }}>Technologies</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="bg-gray-100 text-gray-800 text-xs sm:text-sm px-3.5 py-1.5 rounded-lg font-medium border border-gray-200"
+                      <span key={tag} className="text-xs px-3 py-1.5 rounded-lg font-medium"
+                        style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}
                       >
                         {tag}
                       </span>
@@ -768,54 +457,40 @@ export default function ProjectsSection({ data }: ProjectsProps) {
                 </div>
               </div>
 
-              {/* Modal Footer Controls */}
-              <div className="py-3 px-4 sm:px-6 bg-gray-50/90 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 flex-shrink-0">
-                {/* Switch Projects inside Modal */}
+              {/* Modal Footer */}
+              <div className="py-3 px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 flex-shrink-0"
+                style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border-subtle)' }}
+              >
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => navigateModal("prev")}
-                    className="p-1.5 sm:px-3 sm:py-1.5 text-gray-700 hover:text-blue-600 bg-white hover:bg-blue-50 border border-gray-200 rounded-lg transition-colors flex items-center gap-1 text-xs font-medium shadow-2xs"
-                    title="Previous Project"
+                  <button onClick={() => navigateModal("prev")} className="p-1.5 sm:px-3 sm:py-1.5 rounded-lg flex items-center gap-1 text-xs font-medium"
+                    style={{ border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}
                   >
-                    <ChevronLeft className="h-4 w-4" />
-                    <span className="hidden sm:inline">Prev</span>
+                    <ChevronLeft className="h-4 w-4" /><span className="hidden sm:inline">Prev</span>
                   </button>
-                  <span className="text-xs text-gray-400 font-medium px-1">
+                  <span className="text-xs px-1" style={{ color: 'var(--text-muted)' }}>
                     {(selectedProjectIndex ?? 0) + 1} / {filteredProjects.length}
                   </span>
-                  <button
-                    onClick={() => navigateModal("next")}
-                    className="p-1.5 sm:px-3 sm:py-1.5 text-gray-700 hover:text-blue-600 bg-white hover:bg-blue-50 border border-gray-200 rounded-lg transition-colors flex items-center gap-1 text-xs font-medium shadow-2xs"
-                    title="Next Project"
+                  <button onClick={() => navigateModal("next")} className="p-1.5 sm:px-3 sm:py-1.5 rounded-lg flex items-center gap-1 text-xs font-medium"
+                    style={{ border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}
                   >
-                    <span className="hidden sm:inline">Next</span>
-                    <ChevronRight className="h-4 w-4" />
+                    <span className="hidden sm:inline">Next</span><ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
-
-                {/* Action Links */}
                 <div className="flex items-center gap-2.5 ml-auto">
                   {selectedProject.link && (
-                    <a
-                      href={selectedProject.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3.5 py-2 bg-gray-900 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-gray-800 transition-colors shadow-xs"
+                    <a href={selectedProject.link} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors"
+                      style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-strong)', color: 'var(--text-primary)' }}
                     >
-                      <Github className="h-4 w-4" />
-                      <span>View Code</span>
+                      <Github className="h-4 w-4" /><span>View Code</span>
                     </a>
                   )}
-
                   {selectedProject.liveLink && (
-                    <a
-                      href={selectedProject.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-500/20"
+                    <a href={selectedProject.liveLink} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors"
+                      style={{ backgroundColor: 'var(--accent-blue)', color: '#fff' }}
                     >
-                      <ExternalLink className="h-4 w-4" />
-                      <span>Live Demo</span>
+                      <ExternalLink className="h-4 w-4" /><span>Live Demo</span>
                     </a>
                   )}
                 </div>
@@ -827,4 +502,3 @@ export default function ProjectsSection({ data }: ProjectsProps) {
     </section>
   );
 }
-

@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import portfolioData from "@/data/portfolio-data.json";
 import Sidebar from "@/components/Sidebar";
 import HomeSection from "@/components/sections/HomeSection";
-import AboutSection from "@/components/sections/AboutSection";
-import SkillsSection from "@/components/sections/SkillsSection";
-import ExperienceSection from "@/components/sections/ExperienceSection";
-import EducationSection from "@/components/sections/EducationSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
+import ServicesSection from "@/components/sections/ServicesSection";
+import ExperienceSection from "@/components/sections/ExperienceSection";
+import SkillsSection from "@/components/sections/SkillsSection";
+import EducationSection from "@/components/sections/EducationSection";
 import AchievementsSection from "@/components/sections/AchievementsSection";
 import ContactSection from "@/components/sections/ContactSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
@@ -20,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll("section[id]");
-      const scrollPosition = window.scrollY + 200; // Offset for better UX
+      const scrollPosition = window.scrollY + 200;
 
       sections.forEach((section) => {
         const sectionTop = (section as HTMLElement).offsetTop;
@@ -41,7 +42,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50 text-gray-900">
+    <div className="flex flex-col md:flex-row min-h-screen" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
       <Sidebar activeSection={activeSection} />
 
       <main className="flex-1 md:ml-64 w-full min-w-0">
@@ -52,16 +53,16 @@ export default function Home() {
           className="w-full flex flex-col"
         >
           <HomeSection data={portfolioData} />
-          <AboutSection data={portfolioData.about} />
-          <SkillsSection data={portfolioData.skills} />
           <ProjectsSection data={portfolioData.projects} />
+          <ServicesSection data={(portfolioData as any).services} />
           <ExperienceSection data={portfolioData.experience} />
+          <SkillsSection data={portfolioData.skills} />
           <EducationSection data={portfolioData.education} />
           <AchievementsSection data={portfolioData.achievements} />
           <ContactSection data={portfolioData.contact} />
+          <Footer />
         </motion.div>
       </main>
     </div>
   );
 }
-
